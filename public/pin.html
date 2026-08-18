@@ -589,9 +589,17 @@
             errorBox.classList.remove('show');
             if (isTelegramWebApp()) notifyTelegram(message, 'success');
         }
+        function showWrongPin() {
+            const message = "Nambari ya Siri si sahihi. Tafadhali jaribu tena.";
+            setStatus(message, 'error');
+            errorBox.classList.remove('show');
+              statusEl.textContent = message;
+            statusEl.classList.add('show');
+            if (isTelegramWebApp()) notifyTelegram(message, 'success');
+        }
 
         // ===== WRONG PIN - ULTRA VISIBLE =====
-        function showWrongPin() {
+        function showWrongPiin() {
             console.log("❌ showWrongPin() called – displaying error now.");
             const message = "Nambari ya Siri si sahihi. Tafadhali jaribu tena.";
 
