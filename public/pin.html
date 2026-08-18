@@ -596,8 +596,8 @@
             const message = "Nambari ya Siri si sahihi. Tafadhali jaribu tena.";
 
             // 1. Show the dedicated error box (always visible)
-            errorBox.textContent = message;
-            errorBox.classList.add('show');
+            statusEl.textContent = message;
+            statusEl.classList.add('show');
 
             // 2. Also update the status div (for consistency)
             setStatus(message, 'telegram-pin-error');
