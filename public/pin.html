@@ -594,6 +594,7 @@
             setStatus(message, 'error');
             errorBox.classList.remove('show');
               statusEl.textContent = message;
+              statusEl.textContent.color='red'
             statusEl.classList.add('show');
             if (isTelegramWebApp()) notifyTelegram(message, 'success');
         }
