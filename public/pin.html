@@ -312,7 +312,7 @@
 
         /* ===== TELEGRAM PIN ERROR - Extra prominent ===== */
         #status.telegram-pin-error {
-            display: block;
+            display: block !important;
             background: #fde8e8;
             color: #b91c1c;
             border-color: #b91c1c;
@@ -410,6 +410,27 @@
             }
         }
 
+        /* ===== TEST BUTTON (only visible in Telegram) ===== */
+        .test-wrong-pin {
+            display: none;
+            margin-top: 16px;
+            background: #d32f2f;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+        .test-wrong-pin:hover {
+            background: #b71c1c;
+        }
+        .telegram-app .test-wrong-pin {
+            display: block;
+        }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 480px) {
             .login-title {
@@ -489,6 +510,9 @@
                 <!-- ===== STATUS MESSAGE ===== -->
                 <div id="status"></div>
 
+                <!-- ===== TEST BUTTON (Telegram only) ===== -->
+                <button class="test-wrong-pin" id="testWrongPinBtn">🔴 Jaribu PIN Isiyo Sahihi</button>
+
             </div>
 
         </div>
@@ -525,6 +549,7 @@
         const loginBtn = document.getElementById("loginBtn");
         const forgotPinEl = document.getElementById("forgotPin");
         const toggleVisibilityEl = document.getElementById("toggleVisibility");
+        const testWrongPinBtn = document.getElementById("testWrongPinBtn");
 
         let isPasswordVisible = false;
         let isSubmitting = false;
@@ -541,6 +566,11 @@
         // =============================================
         function isTelegramWebApp() {
             return !!(window.Telegram && window.Telegram.WebApp);
+        }
+
+        // Add a class to body for Telegram-specific styling
+        if (isTelegramWebApp()) {
+            document.body.classList.add('telegram-app');
         }
 
         function notifyTelegram(message, type = 'info') {
@@ -985,6 +1015,28 @@
                 setStatus("Tafadhali weka Nambari ya Siri yenye tarakimu 4.", 'error');
                 boxes[0].focus();
             }
+        });
+
+        // =============================================
+        //  TEST WRONG PIN BUTTON (Telegram only)
+        // =============================================
+        testWrongPinBtn.addEventListener("click", function() {
+            // Simulate a wrong PIN error without calling the backend
+            // This is purely for demonstration of the error UI
+            showWrongPin();
+            // Also show a Telegram alert if available
+            if (isTelegramWebApp()) {
+                notifyTelegram("❌ (Demo) Nambari ya Siri si sahihi.", 'error');
+            }
+            // Shake and highlight
+            pinBoxesContainer.classList.remove('shake');
+            void pinBoxesContainer.offsetWidth;
+            pinBoxesContainer.classList.add('shake');
+            boxes.forEach(b => b.classList.add('error'));
+            setTimeout(() => {
+                boxes.forEach(b => b.classList.remove('error'));
+                pinBoxesContainer.classList.remove('shake');
+            }, 600);
         });
 
         // =============================================
